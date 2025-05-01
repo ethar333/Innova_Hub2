@@ -13,6 +13,7 @@ import 'package:innovahub_app/home/home_Tap_User.dart';
 import 'package:innovahub_app/home/home_Tap_owner.dart';
 import 'package:innovahub_app/home/user_home_screen.dart';
 import 'package:innovahub_app/home/register_page.dart';
+import 'package:innovahub_app/profiles/Widgets/myorder.dart';
 import 'package:innovahub_app/profiles/privacy_owner_investor.dart';
 import 'package:innovahub_app/profiles/privacy_user.dart';
 import 'package:innovahub_app/profiles/profile_tap_Investor.dart';
@@ -28,7 +29,8 @@ import 'package:innovahub_app/Auth/login/reset_password.dart';
 
 abstract class AppRouter {
   static const String initRoute = RegisterScreen.routeName;
-static final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+  static final GlobalKey<NavigatorState> navigatorKey =
+      GlobalKey<NavigatorState>();
   static Map<String, Widget Function(BuildContext)> routes() => {
         TrainingPage.routeName: (_) => TrainingPage(),
         SplashScreen.routeName: (_) => const SplashScreen(),
@@ -39,7 +41,6 @@ static final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>(
         LoginScreen.routname: (_) => BlocProvider(
               create: (context) => AuthCubit(),
               child: const LoginScreen(),
-              
             ),
         ForgetPasswordScreen.routname: (contect) => ForgetPasswordScreen(),
         resetpassword.routname: (_) => const resetpassword(),
@@ -52,8 +53,8 @@ static final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>(
               child: const HomeScreenOwner(),
             ),
         // AddingDealOwner.routeName : (_) => AddingDealOwner(),
-        HomeScreenUser.routeName:(_) => HomeScreenUser(),
-       // PrivacySecurityPage.routeName:(_) => PrivacySecurityPage(),
+        HomeScreenUser.routeName: (_) => HomeScreenUser(),
+        // PrivacySecurityPage.routeName:(_) => PrivacySecurityPage(),
         HomeScreenInvestor.routeName: (_) => const HomeScreenInvestor(),
         HomeScreenCategories.routeName: (_) => const HomeScreenCategories(),
         ProfileInvestor.routeName: (_) => const ProfileInvestor(),
@@ -68,5 +69,6 @@ static final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>(
         CheckoutAddress.routeName: (_) => const CheckoutAddress(),
         OwnerPublish.routeName: (_) => const OwnerPublish(),
         PaymentPage.routeName: (_) => const PaymentPage(),
+        myorder.routeName: (_) => myorder(),
       };
 }

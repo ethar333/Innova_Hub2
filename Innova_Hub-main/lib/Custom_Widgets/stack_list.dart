@@ -59,8 +59,7 @@ class _StackListState extends State<stacklist> {
                 ],
               ),
               const SizedBox(height: 8),
-              Text(
-                  "\$${widget.product.priceBeforeDiscount.toStringAsFixed(2)}"),
+              Text("\$${widget.product.priceBeforeDiscount.toDouble()}"),
               const SizedBox(height: 10),
               Row(
                 children: [

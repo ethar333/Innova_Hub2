@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -92,7 +91,7 @@ class _CheckoutAddressState extends State<CheckoutAddress> {
       body: Stack(
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal:25, vertical: 30),
+            padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 30),
             child: SingleChildScrollView(
               child: Column(
                 children: [
