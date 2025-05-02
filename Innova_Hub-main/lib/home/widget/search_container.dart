@@ -152,6 +152,9 @@ class _SearchContainerState extends State<SearchContainer> {
                         borderSide: BorderSide.none,
                       ),
                     ),
+                    keyboardType: TextInputType.number,
+                    onSubmitted: (_) =>
+                        _searchProducts(), // Call search on Enter
                   ),
                 ),
                 const SizedBox(width: 20),
@@ -174,6 +177,9 @@ class _SearchContainerState extends State<SearchContainer> {
                         borderSide: BorderSide.none,
                       ),
                     ),
+                    keyboardType: TextInputType.number,
+                    onSubmitted: (_) =>
+                        _searchProducts(), // Call search on Enter
                   ),
                 ),
               ],
@@ -202,6 +208,8 @@ class _SearchContainerState extends State<SearchContainer> {
                           borderSide: BorderSide.none,
                         ),
                       ),
+                      onSubmitted: (_) =>
+                          _searchProducts(), // Call search on Enter
                     ),
                   ),
                 ),
