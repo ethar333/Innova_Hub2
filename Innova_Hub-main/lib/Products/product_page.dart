@@ -57,6 +57,7 @@ class _ProductPageState extends State<ProductPage> {
   Widget build(BuildContext context) {
     var arguments = ModalRoute.of(context)!.settings.arguments
         as ProductResponse; // receive data:
+    final currentRating = arguments.numberOfRatings.toInt(); // لو كانت Double
 
     return Scaffold(
       backgroundColor: Constant.white3Color,
@@ -218,35 +219,31 @@ class _ProductPageState extends State<ProductPage> {
                       ),
                       onPressed: () {}),
                   const Spacer(),
-                  const Column(
+                  Column(
                     children: [
                       Row(
                         children: [
-                          Icon(
-                            Icons.star_border,
-                            color: Constant.greyColor,
+                          // نجوم التقييم حسب القيمة المختارة
+                          Row(
+                            children: List.generate(5, (index) {
+                              return Icon(
+                                index < currentRating
+                                    ? Icons.star
+                                    : Icons.star_border,
+                                color: index < currentRating
+                                    ? Colors.amber
+                                    : Constant.greyColor,
+                              );
+                            }),
                           ),
-                          Icon(
-                            Icons.star_border,
-                            color: Constant.greyColor,
-                          ),
-                          Icon(
-                            Icons.star_border,
-                            color: Constant.greyColor,
-                          ),
-                          Icon(
-                            Icons.star_border,
-                            color: Constant.greyColor,
-                          ),
-                          Icon(
-                            Icons.star_border,
-                            color: Constant.greyColor,
+
+                          const SizedBox(width: 8),
+
+                          Text(
+                            "$currentRating Review(s)",
+                            style: TextStyle(color: Constant.greyColor4),
                           ),
                         ],
-                      ),
-                      Text(
-                        " 0 Review(s)",
-                        style: TextStyle(color: Constant.greyColor4),
                       ),
                     ],
                   ),

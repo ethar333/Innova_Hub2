@@ -110,11 +110,15 @@ class _stacklisthandmadeState extends State<stacklisthandmade> {
                 const SizedBox(
                   width: 5,
                 ),
-                const Text(
-                  " In stock",
-                  style:
-                      TextStyle(fontSize: 13, color: Constant.blackColorDark),
-                )
+                const Text("In stock",
+                    style: TextStyle(
+                        fontSize: 13, color: Constant.blackColorDark)),
+                SizedBox(
+                  width: 2,
+                ),
+                Text(
+                  widget.product.stock.toString(),
+                ),
               ],
             ),
           ],

@@ -59,7 +59,7 @@ class _StackListState extends State<stacklist> {
                 ],
               ),
               const SizedBox(height: 8),
-              Text("\$${widget.product.priceBeforeDiscount.toDouble()}"),
+              Text("\$${widget.product.priceBeforeDiscount}"),
               const SizedBox(height: 10),
               Row(
                 children: [
@@ -106,22 +106,29 @@ class _StackListState extends State<stacklist> {
                         Icon(Icons.check, color: Constant.whiteColor, size: 14),
                   ),
                   const SizedBox(width: 5),
-                  const Text("In stock",
+                  Text("In stock",
                       style: TextStyle(
                           fontSize: 13, color: Constant.blackColorDark)),
+                  SizedBox(
+                    width: 2,
+                  ),
+                  Text(
+                    widget.product.stock.toString(),
+                  ),
                 ],
               ),
               const SizedBox(height: 8),
-              const Row(
+              /* Row(
                 children: [
+                  /*Icon(Icons.star, color: Colors.yellow),
                   Icon(Icons.star, color: Colors.yellow),
                   Icon(Icons.star, color: Colors.yellow),
-                  Icon(Icons.star, color: Colors.yellow),
-                  Icon(Icons.star, color: Colors.yellow),
-                  SizedBox(width: 8),
-                  Text("56890"),
+                  SizedBox(width: 8),*/
+                  Text(
+                    widget.product.stock.toString(),
+                  ),
                 ],
-              ),
+              ),*/
               const SizedBox(height: 15),
             ],
           ),
