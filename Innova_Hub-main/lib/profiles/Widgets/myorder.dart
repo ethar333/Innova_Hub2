@@ -170,6 +170,8 @@ class MyWidget extends StatefulWidget {
 }
 
 class _MyWidgetState extends State<MyWidget> {
+  List<Map<String, dynamic>> reviews = [];
+
   Map<int, int> ratings = {};
   Map<int, TextEditingController> commentControllers = {};
   bool isLoading = false;
@@ -269,71 +271,82 @@ class _MyWidgetState extends State<MyWidget> {
                   ),
                   const SizedBox(height: 10),
                   Align(
-                    alignment: Alignment.centerRight,
-                    child: ElevatedButton(
-                      onPressed: isLoading
-                          ? null
-                          : () async {
-                              final ratingValue = ratings[productId] ?? 0;
-                              final commentText =
-                                  commentControllers[productId]?.text.trim() ??
-                                      '';
+                      alignment: Alignment.centerRight,
+                      child: // Add these at the top of your widget
 
-                              if (ratingValue == 0 || commentText.isEmpty) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                      content: Text(
-                                          'Please add a rating and a comment')),
-                                );
-                                return;
-                              }
+                          ElevatedButton(
+                        onPressed: isLoading
+                            ? null
+                            : () async {
+                                final ratingValue = ratings[productId] ?? 0;
+                                final commentText =
+                                    commentControllers[productId]
+                                            ?.text
+                                            .trim() ??
+                                        '';
 
-                              setState(() {
-                                isLoading = true;
-                              });
-
-                              try {
-                                await sendProductRating(
-                                  CommentModel(
-                                    productId: productId,
-                                    ratingValue: ratingValue,
-                                    comment: commentText,
-                                  ),
-                                );
-
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text('Review submitted'),
-                                    backgroundColor: Constant.mainColor,
-                                  ),
-                                );
+                                if (ratingValue == 0 || commentText.isEmpty) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content: Text(
+                                            'Please add a rating and a comment')),
+                                  );
+                                  return;
+                                }
 
                                 setState(() {
-                                  ratings[productId] = 0;
-                                  commentControllers[productId]?.clear();
+                                  isLoading = true;
                                 });
-                              } catch (e) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text('Failed to submit review'),
-                                    backgroundColor: Colors.red,
-                                  ),
-                                );
-                              } finally {
-                                setState(() {
-                                  isLoading = false;
-                                });
-                              }
-                            },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Constant.mainColor,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10)),
-                      ),
-                      child:
-                          Text('Submit', style: TextStyle(color: Colors.white)),
-                    ),
-                  ),
+
+                                try {
+                                  await sendProductRating(
+                                    CommentModel(
+                                      productId: productId,
+                                      ratingValue: ratingValue,
+                                      comment: commentText,
+                                    ),
+                                  );
+
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text('Review submitted'),
+                                      backgroundColor: Constant.mainColor,
+                                    ),
+                                  );
+
+                                  // Add the new review to the list of reviews
+                                  reviews.insert(0, {
+                                    'userName':
+                                        'You', // Example: can be the logged-in user
+                                    'rating': ratingValue,
+                                    'comment': commentText,
+                                  });
+
+                                  setState(() {
+                                    ratings[productId] = 0;
+                                    commentControllers[productId]?.clear();
+                                  });
+                                } catch (e) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text('Failed to submit review'),
+                                      backgroundColor: Colors.red,
+                                    ),
+                                  );
+                                } finally {
+                                  setState(() {
+                                    isLoading = false;
+                                  });
+                                }
+                              },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Constant.mainColor,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                        ),
+                        child: Text('Submit',
+                            style: TextStyle(color: Colors.white)),
+                      )),
                 ],
               ),
             );

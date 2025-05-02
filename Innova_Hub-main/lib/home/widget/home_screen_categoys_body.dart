@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:innovahub_app/core/Constants/Colors_Constant.dart';
 import 'package:innovahub_app/Custom_Widgets/Stack_listCart.dart';
@@ -10,11 +9,12 @@ import 'package:innovahub_app/home/widget/search_container.dart';
 import 'package:innovahub_app/home/widget/title_and_description.dart';
 
 class HomeScreenCategorysBody extends StatelessWidget {
+  final CategoryModel categoryModel; // object:
 
-    final CategoryModel categoryModel;       // object:
-
-   const HomeScreenCategorysBody({super.key,required this.categoryModel,});
-   
+  const HomeScreenCategorysBody({
+    super.key,
+    required this.categoryModel,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -27,9 +27,11 @@ class HomeScreenCategorysBody extends StatelessWidget {
           const SizedBox(
             height: 25,
           ),
-          TitleAndDescription( description: categoryModel.categoryDescription,title: categoryModel.categoryName,),
-          
-          const SearchContainer(),
+          TitleAndDescription(
+            description: categoryModel.categoryDescription,
+            title: categoryModel.categoryName,
+          ),
+          SearchContainer(),
           const SizedBox(
             height: 20,
           ),
@@ -42,10 +44,11 @@ class HomeScreenCategorysBody extends StatelessWidget {
                   fontWeight: FontWeight.w400),
             ),
           ),
-          
-          const SizedBox(height: 20,),
-      
-           /*Container(
+          const SizedBox(
+            height: 20,
+          ),
+
+          /*Container(
             height: 500,
             child: GridView.builder(
               padding: const EdgeInsets.all(10),
@@ -62,38 +65,34 @@ class HomeScreenCategorysBody extends StatelessWidget {
                 return stacklistcart(product:categoryModel.allProducts[index] ,);
               },
             ),
-          ),*/   
+          ),*/
 
-          
-         Container(
-            margin: const EdgeInsets.only(left: 10,right: 10),
+          Container(
+            margin: const EdgeInsets.only(left: 10, right: 10),
             height: 350,
             width: double.infinity,
             child: ListView.separated(
-              itemBuilder: (context,index){
-
-                if(categoryModel.categoryName == 'Carpets'){
-                 return stacklistcart(product:categoryModel.allProducts[index] ,);
-
-                }
-
-               else if(categoryModel.categoryName == 'Necklace' || categoryModel.categoryName == 'Rings' ){
-                 return stacklisthandmade(product:categoryModel.allProducts[index] ,);
-
-                }
-                else if(categoryModel.categoryName =='Bags'){
-                  return stacklist(product: categoryModel.allProducts[index] );
+              itemBuilder: (context, index) {
+                if (categoryModel.categoryName == 'Carpets') {
+                  return stacklistcart(
+                    product: categoryModel.allProducts[index],
+                  );
+                } else if (categoryModel.categoryName == 'Necklace' ||
+                    categoryModel.categoryName == 'Rings') {
+                  return stacklisthandmade(
+                    product: categoryModel.allProducts[index],
+                  );
+                } else if (categoryModel.categoryName == 'Bags') {
+                  return stacklist(product: categoryModel.allProducts[index]);
                 }
                 // if click any item:
-                return stacklistcart(product: categoryModel.allProducts[index] );
-               
-              } , 
-              separatorBuilder:(BuildContext context, int index) {
-                  return const SizedBox(width: 15);
-                  },
-               itemCount: categoryModel.allProducts.length,
-               scrollDirection: Axis.horizontal,
-               
+                return stacklistcart(product: categoryModel.allProducts[index]);
+              },
+              separatorBuilder: (BuildContext context, int index) {
+                return const SizedBox(width: 15);
+              },
+              itemCount: categoryModel.allProducts.length,
+              scrollDirection: Axis.horizontal,
             ),
           ),
         ],
@@ -101,5 +100,3 @@ class HomeScreenCategorysBody extends StatelessWidget {
     );
   }
 }
-
-

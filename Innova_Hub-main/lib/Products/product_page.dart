@@ -640,7 +640,7 @@ class _ProductPageState extends State<ProductPage> {
     );
   }
 
-  Widget _buildReviewItem() {
+  /*Widget _buildReviewItem() {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 12.0),
       child: Column(
@@ -693,6 +693,86 @@ class _ProductPageState extends State<ProductPage> {
           const Text(
             'Very Good Product and Fancy Very Good Product and Fancy',
             style: TextStyle(fontSize: 14),
+          ),
+          const SizedBox(height: 8),
+          // Helpful button
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 4),
+            decoration: BoxDecoration(
+              color: Constant.whiteColor,
+              border: Border.all(color: Constant.greyColor4),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: const Text(
+              'Helpful',
+              style: TextStyle(
+                  fontSize: 13,
+                  color: Constant.blackColorDark,
+                  fontWeight: FontWeight.w500),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}*/
+  Widget _buildReviewItem() {
+    String userName = 'Mohamed Ahmed'; // مثال على اسم المستخدم
+    int rating = 0; // التقييم
+    String comment = ''; // التعليق
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 12.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              // Avatar
+              Container(
+                padding: EdgeInsets.all(4),
+                width: 30,
+                height: 30,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  border: Border.all(color: Constant.greyColor4),
+                  shape: BoxShape.circle,
+                  color: Constant.whiteColor,
+                ),
+                child: const Text(
+                  'M',
+                  style: TextStyle(
+                    color: Constant.blackColorDark,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              const SizedBox(width: 12),
+              // Name
+              const Text(
+                'Mohamed Ahmed',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          // Star rating
+          Row(
+            children: List.generate(5, (index) {
+              return Icon(
+                index < rating ? Icons.star : Icons.star_border,
+                color: Colors.amber,
+                size: 18,
+              );
+            }),
+          ),
+          const SizedBox(height: 8),
+          // Review text
+          Text(
+            comment.isNotEmpty ? comment : 'No review added yet.',
+            style: const TextStyle(fontSize: 14),
           ),
           const SizedBox(height: 8),
           // Helpful button
