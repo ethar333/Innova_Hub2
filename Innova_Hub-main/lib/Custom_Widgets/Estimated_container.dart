@@ -12,7 +12,7 @@ class EstimatedContainer extends StatelessWidget {
             margin: const EdgeInsets.all(15),
             padding: const EdgeInsets.all(22),
             decoration: BoxDecoration(
-              color: Constant.white2Color,
+              color: Constant.white5Color,
               borderRadius: BorderRadius.circular(12),
             ),
             child: const Row(
@@ -31,7 +31,7 @@ class EstimatedContainer extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      '152,326.23 EGP', // text:
+                      ' EGP', // text:
                       style: TextStyle(
                         color: Constant.purpuleColor,
                         fontSize: 24,
@@ -39,7 +39,7 @@ class EstimatedContainer extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      '≈ \$3025.37', // text:
+                      '≈ \$0', // text:
                       style: TextStyle(
                         color: Constant.blackColorDark,
                         fontSize: 15,

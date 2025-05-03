@@ -27,6 +27,7 @@ class Constant {
   static const Color black2Color = Color(0xFF545454);
   static const Color black3Color = Color(0xFF4B4A4A);
   static const Color green2Color = Color(0xFF6BB76B);
+  static const Color white5Color = Color(0xFFEEF3FF);
 }
 
 /*

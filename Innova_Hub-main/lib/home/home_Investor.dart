@@ -134,14 +134,6 @@ class HomeInvestor extends StatelessWidget {
                   fontWeight: FontWeight.w400),
             ),
           ),
-
-          /*const ContainerInvestor(),
-          const ContainerInvestor(),
-          const ContainerInvestor(),
-          const ContainerInvestor(),
-          const ContainerInvestor(),
-          const ContainerInvestor(),*/
-          
             FutureBuilder<List<InvestorInvestment>>(
             future: fetchInvestorInvestments(),
             builder: (context, snapshot) {

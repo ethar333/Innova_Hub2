@@ -400,7 +400,7 @@ class _ProductPageState extends State<ProductPage> {
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
                     child: Text(
                       'There are ${product.numberOfReviews} reviews for this product',
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 14,
                         color: Constant.greyColor4,
                         fontWeight: FontWeight.w500,
@@ -581,6 +581,7 @@ class _ProductPageState extends State<ProductPage> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
+                
               ),
               const SizedBox(width: 12),
               Text(
@@ -589,8 +590,11 @@ class _ProductPageState extends State<ProductPage> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
+
+            
             ],
           ),
+
           const SizedBox(height: 8),
           Row(
             children: List.generate(5, (index) {
@@ -629,5 +633,9 @@ class _ProductPageState extends State<ProductPage> {
       ),
     );
   }
+  /*String _formatTime(DateTime dateTime) {
+  // Formats to something like "10:30 AM"
+  return DateFormat('h:mm a').format(dateTime);
+}*/
 }
 
