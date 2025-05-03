@@ -7,6 +7,7 @@ import 'package:innovahub_app/core/Api/comment_service.dart';
 import 'package:innovahub_app/core/Constants/Colors_Constant.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
+import 'package:intl/intl.dart';
 
 class ProductPage extends StatefulWidget {
   const ProductPage({super.key});
@@ -44,11 +45,14 @@ class _ProductPageState extends State<ProductPage> {
       }
     } catch (e) {
       // Handle error
-    } finally {
-      setState(() {
-        isLoadingComments = false;
-      });
-    }
+    }  finally {
+     if (mounted) {
+    setState(() {
+      isLoadingComments = false;
+    });
+  }
+}
+
   }
 
   Future<void> addComment() async {
@@ -149,7 +153,7 @@ class _ProductPageState extends State<ProductPage> {
                 padding: const EdgeInsets.all(18),
                 child: Text(
                   product.name,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 24,
                     color: Constant.whiteColor,
                     fontWeight: FontWeight.w500,
@@ -590,7 +594,16 @@ class _ProductPageState extends State<ProductPage> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-
+            const Spacer(),
+            Text(
+                '${formatTime(comment.createdAt)}', // Format: "10:30 AM"
+                style: const TextStyle(
+                  color: Color.fromARGB(
+                      255, 67, 66, 66), // Different color for time
+                  fontSize: 12,
+                ),
+                
+              ),
             
             ],
           ),
@@ -633,9 +646,9 @@ class _ProductPageState extends State<ProductPage> {
       ),
     );
   }
-  /*String _formatTime(DateTime dateTime) {
+  String formatTime(DateTime dateTime) {
   // Formats to something like "10:30 AM"
   return DateFormat('h:mm a').format(dateTime);
-}*/
+}
 }
 
