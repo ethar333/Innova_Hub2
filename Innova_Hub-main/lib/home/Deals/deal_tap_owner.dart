@@ -4,7 +4,7 @@ import 'package:innovahub_app/Custom_Widgets/deal_owner_card.dart';
 import 'package:innovahub_app/Models/Deals/Business_owner_response.dart';
 import 'package:innovahub_app/core/Api/Api_Manager_deals.dart';
 import 'package:innovahub_app/core/Constants/Colors_Constant.dart';
-import 'package:innovahub_app/home/Deals/adding_deal_owner.dart';
+import 'package:innovahub_app/home/add_Tap_owner.dart';
 import 'package:innovahub_app/home/widget/custom_search_bar.dart';
 
 class DealOwner extends StatelessWidget {

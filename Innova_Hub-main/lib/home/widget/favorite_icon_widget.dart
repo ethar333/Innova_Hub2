@@ -26,11 +26,14 @@ class _FavoriteIconButtonState extends State<FavoriteIconButton> {
   }
 
   Future<void> _checkIfFavorite() async {
-    List<Map<String, dynamic>> wishlist = await wishlistService.fetchWishlist();
+  List<Map<String, dynamic>> wishlist = await wishlistService.fetchWishlist();
+  if (mounted) {
     setState(() {
       isFavorite = wishlist.any((item) => item["ProductID"] == widget.product.productId);
     });
   }
+}
+
 
   Future<void> _toggleFavorite() async {
     bool success = await wishlistService.addProductToWishlist(widget.product.productId);

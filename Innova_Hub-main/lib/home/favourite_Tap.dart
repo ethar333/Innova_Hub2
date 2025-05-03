@@ -22,11 +22,16 @@ class _FavouriteTabState extends State<FavouriteTab> {
   }
 
   Future<void> fetchWishlistItems() async {
-    setState(() => isLoading = true);
-    wishlistItems = await wishlistService.fetchWishlist();
-    print("Fetched wishlist items: $wishlistItems");
-    setState(() => isLoading = false);
-  }
+  if (!mounted) return;  // التحقق من أن الـ State لا يزال موجودًا
+  setState(() => isLoading = true);
+
+  wishlistItems = await wishlistService.fetchWishlist();
+  print("Fetched wishlist items: $wishlistItems");
+
+  if (!mounted) return;  // التحقق مرة أخرى بعد عملية الـ await
+  setState(() => isLoading = false);
+}
+
 
   Future<void> addProductToWishlist(int productId) async {
     bool success = await wishlistService.addProductToWishlist(productId);

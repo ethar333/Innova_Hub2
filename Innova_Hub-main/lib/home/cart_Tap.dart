@@ -24,11 +24,14 @@ class _CartScreenState extends State<CartTap> {
     fetchCartItems();
   }
 
-  Future<void> fetchCartItems() async {
-    setState(() => isLoading = true);
-    CartController.cartItems = await cartService.fetchCartItems();
-    setState(() => isLoading = false);
-  }
+ Future<void> fetchCartItems() async {
+  if (mounted) setState(() => isLoading = true);
+
+  CartController.cartItems = await cartService.fetchCartItems();
+
+  if (mounted) setState(() => isLoading = false);
+}
+
 
   Future<void> clearCart() async {
     await cartService.clearCart();

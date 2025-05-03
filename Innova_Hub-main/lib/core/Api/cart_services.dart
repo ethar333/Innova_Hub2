@@ -1,12 +1,11 @@
 
-
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 Future<bool> addToCart(int productId, int quantity) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  String? token = prefs.getString("token"); 
+  String? token = prefs.getString("token");
   if (token == null) {
     return false;
   }
@@ -20,7 +19,7 @@ Future<bool> addToCart(int productId, int quantity) async {
       Uri.parse(url),
       headers: {
         "Content-Type": "application/json",
-        "Authorization": "Bearer $token", 
+        "Authorization": "Bearer $token",
       },
       body: jsonEncode(body),
     );
@@ -28,14 +27,12 @@ Future<bool> addToCart(int productId, int quantity) async {
     if (response.statusCode == 200) {
       return true;
     } else {
-     
       return false;
     }
   } catch (error) {
     return false;
   }
 }
-
 
 class CartService {
   final String baseUrl = 'https://innova-hub.premiumasp.net/api/Cart';
@@ -114,6 +111,30 @@ class CartService {
       );
     } catch (error) {
       print("Error deleting item: $error");
+    }
+  }
+
+  Future<bool> addToCart(int productId, int quantity) async {
+    String? token = await _getToken();
+    if (token == null) return false;
+
+    try {
+      var response = await http.post(
+        Uri.parse('$baseUrl/add'),
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer $token",
+        },
+        body: jsonEncode({
+          "ProductId": productId,
+          "Quantity": quantity,
+        }),
+      );
+
+      return response.statusCode == 200;
+    } catch (error) {
+      print("Error adding to cart: $error");
+      return false;
     }
   }
 }

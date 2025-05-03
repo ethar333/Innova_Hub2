@@ -5,6 +5,7 @@ import 'package:innovahub_app/core/Constants/Colors_Constant.dart';
 import 'package:innovahub_app/Custom_Widgets/Text_Field_Widget.dart';
 
 
+// ignore: camel_case_types
 class resetpassword extends StatefulWidget {
 
   static const String routname = "reset_password";
@@ -15,6 +16,7 @@ class resetpassword extends StatefulWidget {
 
 }
 
+// ignore: camel_case_types
 class _resetpasswordState extends State<resetpassword> {
 
   final password = TextEditingController();

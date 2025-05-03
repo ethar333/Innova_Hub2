@@ -8,7 +8,7 @@ import 'package:innovahub_app/core/Constants/Colors_Constant.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
 
- class PublishDealScreen extends StatefulWidget {
+ /*class PublishDealScreen extends StatefulWidget {
   const PublishDealScreen({super.key});
 
   static const String routeName = 'adding_deal_owner';     // route name of this screen:
@@ -260,3 +260,4 @@ class _PublishDealScreenState extends State<PublishDealScreen> {
   }*/
 
 
+*/

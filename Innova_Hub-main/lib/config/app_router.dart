@@ -7,6 +7,7 @@ import 'package:innovahub_app/Models/products/product_model.dart';
 import 'package:innovahub_app/Products/payment_page.dart';
 import 'package:innovahub_app/home/Deals/adding_deal_owner.dart';
 import 'package:innovahub_app/home/Deals/owner_product.dart';
+import 'package:innovahub_app/home/add_Tap_owner.dart';
 import 'package:innovahub_app/home/controller/owner_home_layout/owner_home_layout_cubit.dart';
 import 'package:innovahub_app/home/controller/user_home_layout_cubit/user_home_layout_cubit.dart';
 import 'package:innovahub_app/home/home_Tap_Categories.dart';
@@ -71,6 +72,6 @@ abstract class AppRouter {
         CheckoutAddress.routeName: (_) => const CheckoutAddress(),
         OwnerPublish.routeName: (_) => const OwnerPublish(),
         PaymentPage.routeName: (_) => const PaymentPage(),
-        MyWidget.routname: (context) => MyWidget(), // مؤقتًا بدون تمرير product
+        ReviewScreen.routeName:(_) => ReviewScreen(),
       };
 }

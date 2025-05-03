@@ -10,11 +10,20 @@ import 'package:innovahub_app/Custom_Widgets/container_owner.dart';
 import 'package:innovahub_app/Custom_Widgets/stack_listHandmade.dart';
 import 'package:innovahub_app/Models/Category_response.dart';
 import 'package:innovahub_app/Models/product_response.dart';
-import 'package:innovahub_app/home/Deals/owner_product.dart';
+import 'package:innovahub_app/home/add_Tap_owner.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomeOwner extends StatelessWidget {
   const HomeOwner({super.key});
-
+  
+  Future<void> _launchURL() async {
+    final Uri url = Uri.parse('https://innov-hub-dashboard.vercel.app/');
+    
+    if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
+      throw Exception('Could not launch $url');
+    }
+  }
+  
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -22,7 +31,7 @@ class HomeOwner extends StatelessWidget {
         //mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
+         /* Container(
             margin: const EdgeInsets.only(top: 6),
             width: double.infinity,
             padding: const EdgeInsets.all(20),
@@ -56,12 +65,12 @@ class HomeOwner extends StatelessWidget {
                 ),
               ),
             ),
-          ),
+          ),*/
           const SizedBox(
             height: 15,
           ),
 
-          Padding(
+         /* Padding(
             padding: const EdgeInsets.all(13),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -129,7 +138,7 @@ class HomeOwner extends StatelessWidget {
                 ),
               ],
             ),
-          ),
+          ),*/
 
           const EstimatedContainer(),
           Container(
@@ -145,7 +154,7 @@ class HomeOwner extends StatelessWidget {
                 GestureDetector(
                   onTap: (){
 
-                    Navigator.pushNamed(context, OwnerPublish.routeName);
+                    Navigator.pushNamed(context, PublishDealScreen.routeName);
                   },
                   child: Container(
                     decoration: BoxDecoration(
@@ -193,9 +202,22 @@ class HomeOwner extends StatelessWidget {
           // const SizedBox(height: 10,),
           
          const ContainerOwner(),
+         Center(
+           child: ElevatedButton(
+              onPressed: () {
+                _launchURL();
+              },
+              child: Text('Open Innov Hub Dashboard'),
+              style: ElevatedButton.styleFrom(
+                padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                textStyle: TextStyle(fontSize: 18),
+              ),
+            ),
+         ),
+    
 
           const SizedBox(
-            height: 4,
+            height: 15,
           ),
           Container(
             decoration: const BoxDecoration(
@@ -566,5 +588,7 @@ class HomeOwner extends StatelessWidget {
       ),
     );
   }
+ 
 }
+
 

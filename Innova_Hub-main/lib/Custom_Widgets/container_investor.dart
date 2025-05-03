@@ -1,9 +1,13 @@
 
 import 'package:flutter/material.dart';
+import 'package:innovahub_app/core/Api/Api_investor_home_.dart';
 import 'package:innovahub_app/core/Constants/Colors_Constant.dart';
 
 class ContainerInvestor extends StatelessWidget {
-  const ContainerInvestor({super.key});
+   ContainerInvestor({super.key,required this.investment});
+
+    final InvestorInvestment investment;
+
 
   @override
   Widget build(BuildContext context) {

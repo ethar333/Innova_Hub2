@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:innovahub_app/core/Api/Api_investor_home_.dart';
 import 'package:innovahub_app/core/Constants/Colors_Constant.dart';
 import 'package:innovahub_app/Custom_Widgets/Estimated_container.dart';
 import 'package:innovahub_app/Custom_Widgets/container_investor.dart';
@@ -134,12 +135,54 @@ class HomeInvestor extends StatelessWidget {
             ),
           ),
 
+          /*const ContainerInvestor(),
           const ContainerInvestor(),
           const ContainerInvestor(),
           const ContainerInvestor(),
           const ContainerInvestor(),
-          const ContainerInvestor(),
-          const ContainerInvestor(),
+          const ContainerInvestor(),*/
+          
+            FutureBuilder<List<InvestorInvestment>>(
+            future: fetchInvestorInvestments(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(
+                  child: Padding(
+                    padding: EdgeInsets.all(20),
+                    child: CircularProgressIndicator(),
+                  ),
+                );
+              }
+              if (snapshot.hasError) {
+                return Center(
+                  child: Padding(
+                    padding:const  EdgeInsets.all(20),
+                    child: Text('Error: ${snapshot.error}'),
+                  ),
+                );
+              }
+
+              final investments = snapshot.data!;
+
+              if (investments.isEmpty) {
+                return const Center(
+                  child: Padding(
+                    padding: EdgeInsets.all(20),
+                    child: Text(
+                      'No investments for this investor',
+                      style: TextStyle(fontSize: 16, color: Colors.grey),
+                    ),
+                  ),
+                );
+              }
+
+              return Column(
+                children: investments.map((investment) {
+                  return ContainerInvestor(investment: investment);
+                }).toList(),
+              );
+            },
+          ),
           
           const SizedBox(height: 20,),
 
