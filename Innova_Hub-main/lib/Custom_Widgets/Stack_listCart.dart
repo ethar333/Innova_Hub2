@@ -66,7 +66,7 @@ class _stacklistcartState extends State<stacklistcart> {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    "\$${widget.product.priceAfterDiscount.toStringAsFixed(2)}",
+                    "\$${widget.product.price.toStringAsFixed(2)}",
                     style: const TextStyle(
                         fontWeight: FontWeight.w500,
                         color: Constant.blackColorDark),

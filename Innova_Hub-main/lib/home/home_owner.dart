@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:innovahub_app/Products/product_page.dart';
 import 'package:innovahub_app/core/Api/Api_Manager_categories.dart';
+import 'package:innovahub_app/core/Api/Api_Owner_home.dart';
 import 'package:innovahub_app/core/Constants/Colors_Constant.dart';
 import 'package:innovahub_app/Custom_Widgets/Estimated_container.dart';
 import 'package:innovahub_app/Custom_Widgets/Stack_listCart.dart';
@@ -13,69 +14,59 @@ import 'package:innovahub_app/Models/product_response.dart';
 import 'package:innovahub_app/home/add_Tap_owner.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class HomeOwner extends StatelessWidget {
+class HomeOwner extends StatefulWidget {
   const HomeOwner({super.key});
-  
+
+  @override
+  State<HomeOwner> createState() => _HomeOwnerState();
+}
+
+class _HomeOwnerState extends State<HomeOwner> {
+  late Future<List<Investment>> futureInvestments;
+  final ApiService _apiService = ApiService();
+
+  @override
+  void initState() {
+    super.initState();
+    _loadInvestments();
+  }
+
+  Future<void> _loadInvestments() async {
+    setState(() {
+      futureInvestments = _apiService.getOwnerInvestments();
+    });
+  }
+
   Future<void> _launchURL() async {
     final Uri url = Uri.parse('https://innov-hub-dashboard.vercel.app/');
-    
     if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
       throw Exception('Could not launch $url');
     }
   }
-  
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
-        //mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-         /* Container(
-            margin: const EdgeInsets.only(top: 6),
+          Container(
             width: double.infinity,
-            padding: const EdgeInsets.all(20),
+            padding: const EdgeInsets.all(22),
             color: Constant.mainColor,
-            child: TextField(
-              decoration: InputDecoration(
-                contentPadding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 15),
-                fillColor: Constant.whiteColor,
-                filled: true,
-                prefixIcon: const Icon(
-                  Icons.search,
-                  color: Constant.greyColor2,
-                ),
-                hintText: 'Search any Product...',
-                hintStyle:
-                    const TextStyle(color: Constant.greyColor2, fontSize: 14),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(30),
-                  borderSide: const BorderSide(
-                    color: Constant.whiteColor,
-                  ),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(30),
-                  borderSide: const BorderSide(color: Constant.whiteColor),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(40),
-                  borderSide: const BorderSide(color: Constant.whiteColor),
-                ),
-              ),
-            ),
-          ),*/
-          const SizedBox(
-            height: 15,
           ),
-
-         /* Padding(
-            padding: const EdgeInsets.all(13),
+          const SizedBox(  height: 15, ),
+          
+          Container(
+            margin: const EdgeInsets.all(12),
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: Constant.whiteColor,
+              borderRadius: BorderRadius.circular(12),
+            ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Image.asset(
+                 Image.asset(
                   "assets/images/owner1.png",
                 ),
                 const SizedBox(
@@ -136,9 +127,10 @@ class HomeOwner extends StatelessWidget {
                     ),
                   ],
                 ),
+    
               ],
-            ),
-          ),*/
+            )
+          ),
 
           const EstimatedContainer(),
           Container(
@@ -200,8 +192,83 @@ class HomeOwner extends StatelessWidget {
           ),
 
           // const SizedBox(height: 10,),
+          FutureBuilder<List<Investment>>(
+            future: futureInvestments,
+            builder: (context, snapshot) {
+              // Loading State
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 20),
+                  child: Center(child: CircularProgressIndicator()),
+                );
+              }
+
+              // Error State
+              if (snapshot.hasError) {
+                return Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Center(
+                    child: Text(
+                      'Error loading investments\n${snapshot.error}',
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                );
+              }
+
+              // Empty State
+              if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                return Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Center(
+                        child: Icon(
+                          Icons.inventory_outlined,
+                          size: 60,
+                          color: Colors.grey[400],
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      Text(
+                        'No Owner Investment',
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.grey[600],
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        'You don\'t have any investments yet',
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.grey[500],
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                    ],
+                  ),
+                );
+              }
+
+              // Data State
+              return Column(
+                children: snapshot.data!
+                    .map((investment) => Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 15,
+                            vertical: 8,
+                          ),
+                          child: InvestmentContainer(investment: investment),
+                        ))
+                    .toList(),
+              );
+            },
+          ),
           
-         const ContainerOwner(),
+        // const ContainerOwner(),
          Center(
            child: ElevatedButton(
               onPressed: () {

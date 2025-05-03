@@ -74,7 +74,7 @@ class HomeScreenCategorysBody extends StatelessWidget {
             child: ListView.separated(
               itemBuilder: (context, index) {
                 if (categoryModel.categoryName == 'Carpets') {
-                  return stacklist(
+                  return stacklistcart(
                     product: categoryModel.allProducts[index],
                   );
                 } else if (categoryModel.categoryName == 'Necklace' ||
@@ -86,7 +86,7 @@ class HomeScreenCategorysBody extends StatelessWidget {
                   return stacklist(product: categoryModel.allProducts[index]);
                 }
                 // if click any item:
-                return stacklistcart(product: categoryModel.allProducts[index]);
+                return stacklist(product: categoryModel.allProducts[index]);
               },
               separatorBuilder: (BuildContext context, int index) {
                 return const SizedBox(width: 15);

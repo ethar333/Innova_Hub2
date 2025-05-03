@@ -66,8 +66,7 @@ class _stacklisthandmadeState extends State<stacklisthandmade> {
             const SizedBox(
               height: 8,
             ),
-            Text("\$${widget.product.priceAfterDiscount}",
-                style: const TextStyle(fontWeight: FontWeight.bold)),
+              Text("\$${widget.product.price.toStringAsFixed(2)}",style: const TextStyle(fontWeight: FontWeight.bold),),
             const SizedBox(
               height: 10,
             ),

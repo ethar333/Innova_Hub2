@@ -20,11 +20,23 @@ class ProductPage extends StatefulWidget {
 
 class _ProductPageState extends State<ProductPage> {
   late ProductResponse product;
+  
   TextEditingController commentController = TextEditingController();
   int quantity = 1;
   List<ProductComment> comments = [];
   bool isLoadingComments = false;
-
+  late ProductCommentsResponse productCommentsResponse;
+  @override
+  void initState() {
+    super.initState();
+    productCommentsResponse = ProductCommentsResponse(
+      message: '',
+      numOfComments: 0,
+      comments: [],
+      averageRating: 0,
+      ratingBreakdown: {},
+    );
+  }
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -41,6 +53,7 @@ class _ProductPageState extends State<ProductPage> {
       if (response != null) {
         setState(() {
           comments = response.comments;
+          productCommentsResponse = response;
         });
       }
     } catch (e) {
@@ -52,8 +65,7 @@ class _ProductPageState extends State<ProductPage> {
     });
   }
 }
-
-  }
+ }
 
   Future<void> addComment() async {
     if (commentController.text.isEmpty) {
@@ -64,7 +76,7 @@ class _ProductPageState extends State<ProductPage> {
     }
 
     final message = await CommentService.postComment(
-        product.productId, commentController.text);
+     product.productId, commentController.text);
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text(message)),
@@ -111,7 +123,8 @@ class _ProductPageState extends State<ProductPage> {
   }
   @override
   Widget build(BuildContext context) {
-    final currentRating = product.numberOfRatings.toInt();
+   
+     final currentRating = productCommentsResponse.averageRating.toInt();  
 
     return Scaffold(
       backgroundColor: Constant.white3Color,
@@ -246,7 +259,7 @@ class _ProductPageState extends State<ProductPage> {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    '\$${product.priceBeforeDiscount.toStringAsFixed(2)}',
+                    '\$${product.price.toStringAsFixed(2)}',
                     style: const TextStyle(
                       color: Constant.blackColorDark,
                       fontSize: 16,
@@ -297,7 +310,7 @@ class _ProductPageState extends State<ProductPage> {
                           ),
                           const SizedBox(width: 8),
                           Text(
-                            "$currentRating Review(s)",
+                            "${productCommentsResponse.averageRating.toString()} Review(s)",
                             style: TextStyle(color: Constant.greyColor4),
                           ),
                         ],
@@ -397,13 +410,13 @@ class _ProductPageState extends State<ProductPage> {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  _buildRatingSummary(),
+                   _buildRatingSummary(),
                   const SizedBox(height: 16),
                   const Divider(),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
                     child: Text(
-                      'There are ${product.numberOfReviews} reviews for this product',
+                      'There are ${comments.length} reviews for this product',
                       style: const TextStyle(
                         fontSize: 14,
                         color: Constant.greyColor4,
@@ -463,11 +476,11 @@ class _ProductPageState extends State<ProductPage> {
     );
   }
   Widget _buildRatingSummary() {
-    final totalRatings = (product.ratingBreakdown['5 star'] ?? 0) +
-        (product.ratingBreakdown['4 star'] ?? 0) +
-        (product.ratingBreakdown['3 star'] ?? 0) +
-        (product.ratingBreakdown['2 star'] ?? 0) +
-        (product.ratingBreakdown['1 star'] ?? 0);
+    final totalRatings = (productCommentsResponse.ratingBreakdown['5 star'] ?? 0) +
+        (productCommentsResponse.ratingBreakdown['4 star'] ?? 0) +
+        (productCommentsResponse.ratingBreakdown['3 star'] ?? 0) +
+        (productCommentsResponse.ratingBreakdown['2 star'] ?? 0) +
+        (productCommentsResponse.ratingBreakdown['1 star'] ?? 0);
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -475,7 +488,7 @@ class _ProductPageState extends State<ProductPage> {
         Column(
           children: [
             Text(
-              product.numberOfReviews.toString(),
+              productCommentsResponse.averageRating.toString(),
               style: TextStyle(
                 fontSize: 36,
                 fontWeight: FontWeight.bold,
@@ -483,7 +496,7 @@ class _ProductPageState extends State<ProductPage> {
               ),
             ),
             Text(
-              'Based on ${product.numberOfRatings} Ratings',
+              'Based on ${productCommentsResponse.averageRating} Ratings',
               style: TextStyle(
                 fontSize: 12,
                 color: Colors.grey[600],
@@ -498,35 +511,35 @@ class _ProductPageState extends State<ProductPage> {
               _buildRatingBar(
                 5,
                 totalRatings > 0
-                    ? (product.ratingBreakdown['5 star'] ?? 0) / totalRatings
+                    ? (productCommentsResponse.ratingBreakdown['5 star'] ?? 0) / totalRatings
                     : 0,
                 Colors.green,
               ),
               _buildRatingBar(
                 4,
                 totalRatings > 0
-                    ? (product.ratingBreakdown['4 star'] ?? 0) / totalRatings
+                    ? (productCommentsResponse.ratingBreakdown['4 star'] ?? 0) / totalRatings
                     : 0,
                 Colors.lightGreen,
               ),
               _buildRatingBar(
                 3,
                 totalRatings > 0
-                    ? (product.ratingBreakdown['3 star'] ?? 0) / totalRatings
+                    ? (productCommentsResponse.ratingBreakdown['3 star'] ?? 0) / totalRatings
                     : 0,
                 Colors.amber,
               ),
               _buildRatingBar(
                 2,
                 totalRatings > 0
-                    ? (product.ratingBreakdown['2 star'] ?? 0) / totalRatings
+                    ? (productCommentsResponse.ratingBreakdown['2 star'] ?? 0) / totalRatings
                     : 0,
                 Colors.orange,
               ),
               _buildRatingBar(
                 1,
                 totalRatings > 0
-                    ? (product.ratingBreakdown['1 star'] ?? 0) / totalRatings
+                    ? (productCommentsResponse.ratingBreakdown['1 star'] ?? 0) / totalRatings
                     : 0,
                 Colors.deepOrange,
               ),
@@ -536,6 +549,7 @@ class _ProductPageState extends State<ProductPage> {
       ],
     );
   }
+
   Widget _buildRatingBar(int stars, double percentage, Color color) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4.0),
@@ -612,7 +626,7 @@ class _ProductPageState extends State<ProductPage> {
           Row(
             children: List.generate(5, (index) {
               return Icon(
-                index < product.numberOfRatings // Using product's rating
+                index < productCommentsResponse.averageRating // Using product's rating
                     ? Icons.star
                     : Icons.star_border,
                 color: Colors.amber,

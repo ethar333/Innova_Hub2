@@ -59,7 +59,9 @@ class _StackListState extends State<stacklist> {
                 ],
               ),
               const SizedBox(height: 8),
-              Text("\$${widget.product.priceBeforeDiscount}"),
+              Text("\$${widget.product.price.toStringAsFixed(2)}",
+              style: const TextStyle(fontWeight: FontWeight.w500,
+              color: Constant.blackColorDark),),
               const SizedBox(height: 10),
               Row(
                 children: [
@@ -106,10 +108,10 @@ class _StackListState extends State<stacklist> {
                         Icon(Icons.check, color: Constant.whiteColor, size: 14),
                   ),
                   const SizedBox(width: 5),
-                  Text("In stock",
+                 const Text("In stock",
                       style: TextStyle(
                           fontSize: 13, color: Constant.blackColorDark)),
-                  SizedBox(
+                 const  SizedBox(
                     width: 2,
                   ),
                   Text(

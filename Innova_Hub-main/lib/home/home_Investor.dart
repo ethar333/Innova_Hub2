@@ -14,7 +14,93 @@ class HomeInvestor extends StatelessWidget {
         //mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+
+        Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(22),
+            color: Constant.mainColor,
+          ),
+          const SizedBox(  height: 15, ),
+          
           Container(
+            margin: const EdgeInsets.all(12),
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: Constant.whiteColor,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                 Image.asset(
+                  "assets/images/owner1.png",
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                const Expanded(
+                  child: Column(
+                    //mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Mohamed Ali',
+                        style: TextStyle(
+                          color: Constant.blackColorDark,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          CircleAvatar(
+                            radius: 10,
+                            backgroundColor: Constant.blue3Color,
+                            child: Icon(
+                              Icons.check,
+                              color: Constant.whiteColor,
+                              size: 18,
+                            ),
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            'Verified',
+                            style: TextStyle(
+                              color: Constant.greyColor3,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                const Column(
+                  //mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'ID:2333669591',
+                      style: TextStyle(
+                        color: Constant.greyColor,
+                        fontSize: 15,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                  ],
+                ),
+    
+              ],
+            )
+          ),
+
+
+
+          /*Container(
             margin: const EdgeInsets.only(top: 6),
             width: double.infinity,
             padding: const EdgeInsets.all(20),
@@ -120,7 +206,7 @@ class HomeInvestor extends StatelessWidget {
                 ),
               ],
             ),
-          ),
+          ),*/
 
           const EstimatedContainer(),
           
