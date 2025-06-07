@@ -278,7 +278,7 @@ class _ProfileDesignState extends State<ProfileUser> {
             const SizedBox(
               height: 15,
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 5),
             const ContainerUser(
               icon: Icons.badge,
               title: "My Order",

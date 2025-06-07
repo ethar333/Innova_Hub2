@@ -71,7 +71,6 @@ class _ProfileDesignState extends State<ProfileOwner> {
         _isUploading = false;
       });
 
-      //await _uploadImage(); // رفع الصورة مباشرة بعد اختيارها
     }
   }
 
@@ -329,7 +328,7 @@ class _ProfileDesignState extends State<ProfileOwner> {
             const ContainerUser(icon: Icons.show_chart , title: "Discover your Dashboard",route: null,),     
             const SizedBox(height: 15),
             const ContainerUser(icon: Icons.lock , title: "Privacy & Security",route: PrivacyUser.routeName ,),     
-            const SizedBox( height: 15,),            
+            const SizedBox( height: 5,),            
             const SizedBox(height: 20),
             const LogoutTextField(),
 

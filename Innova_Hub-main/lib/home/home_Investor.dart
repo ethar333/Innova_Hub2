@@ -14,91 +14,87 @@ class HomeInvestor extends StatelessWidget {
         //mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-
-        Container(
+          Container(
             width: double.infinity,
             padding: const EdgeInsets.all(22),
             color: Constant.mainColor,
           ),
-          const SizedBox(  height: 15, ),
-          
+          const SizedBox(
+            height: 15,
+          ),
           Container(
-            margin: const EdgeInsets.all(12),
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: Constant.whiteColor,
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                 Image.asset(
-                  "assets/images/owner1.png",
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                const Expanded(
-                  child: Column(
-                    //mainAxisAlignment: MainAxisAlignment.start,
+              margin: const EdgeInsets.all(12),
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Constant.whiteColor,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Image.asset(
+                    "assets/images/owner1.png",
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  const Expanded(
+                    child: Column(
+                      //mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Mohamed Ali',
+                          style: TextStyle(
+                            color: Constant.blackColorDark,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        Row(
+                          children: [
+                            CircleAvatar(
+                              radius: 10,
+                              backgroundColor: Constant.blue3Color,
+                              child: Icon(
+                                Icons.check,
+                                color: Constant.whiteColor,
+                                size: 18,
+                              ),
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Text(
+                              'Verified',
+                              style: TextStyle(
+                                color: Constant.greyColor3,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  const Column(
+                    //mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Mohamed Ali',
+                        'ID:2333669591',
                         style: TextStyle(
-                          color: Constant.blackColorDark,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w400,
+                          color: Constant.greyColor,
+                          fontSize: 15,
                         ),
                       ),
-                      Row(
-                        children: [
-                          CircleAvatar(
-                            radius: 10,
-                            backgroundColor: Constant.blue3Color,
-                            child: Icon(
-                              Icons.check,
-                              color: Constant.whiteColor,
-                              size: 18,
-                            ),
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Text(
-                            'Verified',
-                            style: TextStyle(
-                              color: Constant.greyColor3,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ],
+                      SizedBox(
+                        height: 20,
                       ),
                     ],
                   ),
-                ),
-                const Column(
-                  //mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'ID:2333669591',
-                      style: TextStyle(
-                        color: Constant.greyColor,
-                        fontSize: 15,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                  ],
-                ),
-    
-              ],
-            )
-          ),
-
-
+                ],
+              )),
 
           /*Container(
             margin: const EdgeInsets.only(top: 6),
@@ -209,7 +205,6 @@ class HomeInvestor extends StatelessWidget {
           ),*/
 
           const EstimatedContainer(),
-          
           const Padding(
             padding: EdgeInsets.only(left: 14),
             child: Text(
@@ -220,7 +215,7 @@ class HomeInvestor extends StatelessWidget {
                   fontWeight: FontWeight.w400),
             ),
           ),
-            FutureBuilder<List<InvestorInvestment>>(
+          FutureBuilder<List<InvestorInvestment>>(
             future: fetchInvestorInvestments(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
@@ -234,7 +229,7 @@ class HomeInvestor extends StatelessWidget {
               if (snapshot.hasError) {
                 return Center(
                   child: Padding(
-                    padding:const  EdgeInsets.all(20),
+                    padding: const EdgeInsets.all(20),
                     child: Text('Error: ${snapshot.error}'),
                   ),
                 );
@@ -261,15 +256,31 @@ class HomeInvestor extends StatelessWidget {
               );
             },
           ),
-          
-          const SizedBox(height: 20,),
-
-
+         
+           const SizedBox(
+            height: 20,
+          ), 
+                   
+          /*Container(
+            height: 150,
+            //margin: const EdgeInsets.all(15),
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              color: Constant.whiteColor,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: const Text('Feel Free To Discover our platform Products and Deals Projects! ',
+            style: TextStyle(
+              color: Constant.mainColor,
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+            ),
+            ),
+          ),*/
 
         ],
+
       ),
     );
   }
 }
-
-

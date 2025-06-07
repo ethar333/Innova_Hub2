@@ -40,7 +40,7 @@ class _resetpasswordState extends State<resetpassword> {
         url,
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({
-          'email': email,  // إرسال البريد الإلكتروني الذي تم إدخاله في الحقل
+          'email': email,  
           'token': tokenValue,
           'newPassword': newPassword,
         }),

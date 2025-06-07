@@ -1,6 +1,6 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:innovahub_app/Auth/Auth_Cubit/Auth_cubit.dart';
 import 'package:innovahub_app/Auth/Auth_Cubit/Auth_states.dart';
 import 'package:innovahub_app/Auth/login/forget_password.dart';
@@ -276,18 +276,18 @@ class _LoginScreenState extends State<LoginScreen> {
                       const SizedBox(
                         height: 25,
                       ),
-                      const Center(
+                      /*const Center(
                         child: Text(
                           'Or Sign In With',
                           style: TextStyle(
                             color: Constant.greyColor,
                           ),
                         ),
-                      ),
+                      ),*/
                       const SizedBox(
                         height: 8,
                       ),
-                      Row(
+                      /*Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           IconButton(
@@ -329,7 +329,7 @@ class _LoginScreenState extends State<LoginScreen> {
                        
                        ),*/
                         ],
-                      ),
+                      ),*/
                     ],
                   ),
                 ),

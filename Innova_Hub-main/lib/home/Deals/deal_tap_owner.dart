@@ -4,7 +4,7 @@ import 'package:innovahub_app/Custom_Widgets/deal_owner_card.dart';
 import 'package:innovahub_app/Models/Deals/Business_owner_response.dart';
 import 'package:innovahub_app/core/Api/Api_Manager_deals.dart';
 import 'package:innovahub_app/core/Constants/Colors_Constant.dart';
-import 'package:innovahub_app/home/add_Tap_owner.dart';
+import 'package:innovahub_app/home/add_Deal_Tap_owner.dart';
 import 'package:innovahub_app/home/widget/custom_search_bar.dart';
 
 class DealOwner extends StatelessWidget {
@@ -120,8 +120,8 @@ class DealOwner extends StatelessWidget {
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       border: Border.all(
-                        color: Constant.mainColor, // لون الـ border
-                        width: 3, // سمك الـ border
+                        color: Constant.mainColor, 
+                        width: 3, 
                       ),
                     ),
                     child: const CircleAvatar(

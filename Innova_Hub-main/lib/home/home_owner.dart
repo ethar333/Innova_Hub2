@@ -11,7 +11,7 @@ import 'package:innovahub_app/Custom_Widgets/container_owner.dart';
 import 'package:innovahub_app/Custom_Widgets/stack_listHandmade.dart';
 import 'package:innovahub_app/Models/Category_response.dart';
 import 'package:innovahub_app/Models/product_response.dart';
-import 'package:innovahub_app/home/add_Tap_owner.dart';
+import 'package:innovahub_app/home/Deals/owner_product.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HomeOwner extends StatefulWidget {
@@ -51,7 +51,7 @@ class _HomeOwnerState extends State<HomeOwner> {
         children: [
           Container(
             width: double.infinity,
-            padding: const EdgeInsets.all(22),
+            padding: const EdgeInsets.all(24),
             color: Constant.mainColor,
           ),
           const SizedBox(  height: 15, ),
@@ -146,14 +146,14 @@ class _HomeOwnerState extends State<HomeOwner> {
                 GestureDetector(
                   onTap: (){
 
-                    Navigator.pushNamed(context, PublishDealScreen.routeName);
+                    Navigator.pushNamed(context, OwnerPublish.routeName);
                   },
                   child: Container(
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       border: Border.all(
-                        color: Constant.mainColor, // لون الـ border
-                        width: 3, // سمك الـ border
+                        color: Constant.mainColor, 
+                        width: 3, 
                       ),
                     ),
                     child: const CircleAvatar(
@@ -199,7 +199,7 @@ class _HomeOwnerState extends State<HomeOwner> {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Padding(
                   padding: EdgeInsets.symmetric(vertical: 20),
-                  child: Center(child: CircularProgressIndicator()),
+                  child: Center(child: CircularProgressIndicator(color: Constant.mainColor,)),
                 );
               }
 
@@ -269,18 +269,18 @@ class _HomeOwnerState extends State<HomeOwner> {
           ),
           
         // const ContainerOwner(),
-         Center(
+         /*Center(
            child: ElevatedButton(
               onPressed: () {
                 _launchURL();
               },
-              child: Text('Open Innov Hub Dashboard'),
+              child: Text('Open Innova Hub Dashboard'),
               style: ElevatedButton.styleFrom(
                 padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                 textStyle: TextStyle(fontSize: 18),
               ),
             ),
-         ),
+         )*/
     
 
           const SizedBox(
@@ -320,7 +320,7 @@ class _HomeOwnerState extends State<HomeOwner> {
             ),
           ),
 
-           const SizedBox(height: 15,),
+           const SizedBox(height: 25,),
 
            // display categories:
          FutureBuilder<List<CategoryResponse>>(

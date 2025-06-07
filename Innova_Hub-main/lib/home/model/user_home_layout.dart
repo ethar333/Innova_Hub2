@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:innovahub_app/home/cart_Tap.dart';
 import 'package:innovahub_app/home/favourite_Tap.dart';
 import 'package:innovahub_app/home/home_Tap_User.dart';
-import 'package:innovahub_app/home/search_Tap.dart';
 import 'package:innovahub_app/profiles/profile_tap_User.dart';
 
 abstract class UserHomeLayout {
@@ -11,7 +10,6 @@ abstract class UserHomeLayout {
     const HomeScreenUser(),
      FavouriteTab(),
     const CartTap(),
-    const SearchTap(),
     const ProfileUser(),
   ];
   static List<BottomNavigationBarItem> bottomNavBarItems = [
@@ -33,12 +31,7 @@ abstract class UserHomeLayout {
       ),
       label: "Cart",
     ),
-    const BottomNavigationBarItem(
-      icon: Icon(
-        Icons.search_outlined,
-      ),
-      label: "Search",
-    ),
+   
     const BottomNavigationBarItem(
       icon: Icon(
         Icons.person_outline,

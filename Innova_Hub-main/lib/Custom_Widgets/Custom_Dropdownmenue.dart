@@ -1,6 +1,7 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:innovahub_app/core/Constants/Colors_Constant.dart';
 import 'package:multiselect/multiselect.dart';
 
 // ignore: camel_case_types
@@ -54,20 +55,17 @@ class _dropdownmenueforcatregoryState extends State<dropdownmenueforcatregory> {
       onChanged: (String? newValue) {
         setState(() {
           selectedCategoryName = newValue;
-          // البحث عن الـ CategoryId المرتبط بـ CategoryName
           selectedCategoryId = categories.firstWhere(
             (category) => category['CategoryName'] == newValue,
             orElse: () =>
-                {"CategoryId": null}, // تجنب الخطأ إذا لم يتم العثور على الفئة
+                {"CategoryId": null}, 
           )['CategoryId'];
 
-          // تحديث TextEditingController بالـ CategoryId الصحيح
           widget.categoryIdController.text =
-              selectedCategoryId?.toString() ?? "";
+          selectedCategoryId?.toString() ?? "";
 
-          // طباعة القيم للتأكد
           print(
-              "Selected Category:$selectedCategoryName, ID: $selectedCategoryId");
+           "Selected Category:$selectedCategoryName, ID: $selectedCategoryId");
         });
       },
     );
@@ -75,7 +73,7 @@ class _dropdownmenueforcatregoryState extends State<dropdownmenueforcatregory> {
 }
 
 class DropdownMenuForcolor extends StatefulWidget {
-  final TextEditingController colorNamesController; // ✅ تمرير الكنترولر
+  final TextEditingController colorNamesController; 
 
   const DropdownMenuForcolor({Key? key, required this.colorNamesController})
       : super(key: key);
@@ -94,7 +92,7 @@ class _DropdownMenuForcolorState extends State<DropdownMenuForcolor> {
     "White",
     "-"
   ];
-  List<String> selectedColors = []; // ✅ تخزين القيم المختارة
+  List<String> selectedColors = []; 
 
   @override
   Widget build(BuildContext context) {
@@ -104,17 +102,20 @@ class _DropdownMenuForcolorState extends State<DropdownMenuForcolor> {
           child: DropDownMultiSelect(
             options: colorOptions,
             selectedValues: selectedColors,
-            whenEmpty: 'Select color',
+            //whenEmpty: 'Select color',
             onChanged: (List<String> values) {
               setState(() {
                 selectedColors = values;
                 widget.colorNamesController.text =
-                    selectedColors.join(", "); // ✅ تحديث الكنترولر
+                    selectedColors.join(", ");
               });
             },
-            decoration: const InputDecoration(
+            decoration:  const InputDecoration(
               border: InputBorder.none,
               contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+              
+                
+              
             ),
           ),
         ),
@@ -144,7 +145,7 @@ class _DropdownMenuForsizeState extends State<DropdownMenuForsize> {
           child: DropDownMultiSelect(
             options: sizeOptions,
             selectedValues: selectedSizes,
-            whenEmpty: 'Select size',
+            //whenEmpty: 'Select size',
             onChanged: (List<String> values) {
               setState(() {
                 selectedSizes = values;

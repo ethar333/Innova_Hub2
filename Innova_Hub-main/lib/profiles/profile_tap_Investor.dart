@@ -328,11 +328,10 @@ class _ProfileDesignState extends State<ProfileInvestor> {
 
             const SizedBox(height: 15),
             const ContainerUser(icon: Icons.show_chart , title: "Discover your Dashboard",route: null,),     
-            const SizedBox(height: 15),
+            const SizedBox(height: 10),
             const ContainerUser(icon: Icons.lock , title: "Privacy & Security",route: PrivacyUser.routeName ,),     
             const SizedBox(height: 20),
             const LogoutTextField(),
-
             const SizedBox( height: 20,),
 
           ],

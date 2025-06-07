@@ -61,7 +61,6 @@ class _PublishDealScreenState extends State<PublishDealScreen> {
       manufacturingCost: manufacturingController.text,
       estimatedPrice: estimatedPriceController.text,
       categoryId: 16,
-
     );
 
     List<File?> images = [_image1, _image2, _image3]; // list of images:
@@ -94,63 +93,101 @@ class _PublishDealScreenState extends State<PublishDealScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Constant.whiteColor,
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.only(top: 60, left: 20, right: 20),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _buildLabeledTextField('Business name', businessNameController),
-                _buildLabeledTextField('Business type', businessTypeController),
-                _buildLabeledTextField('Description', descriptionController,
-                    maxLines: 3),
-                _buildLabeledTextField('Offer Money', offerMoneyController),
-                _buildLabeledTextField('Offer Deal', offerDealController),
-                _buildLabeledTextField(
-                    'Manufacturing', manufacturingController),
-                _buildLabeledTextField(
-                    'Estimated Price', estimatedPriceController),
-                const SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                height: 80,
+                width: double.infinity,
+                padding: const EdgeInsets.all(24),
+                color: Constant.mainColor,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    _buildImagePicker(1, _image1, isLarge: true),
-                    const SizedBox(width: 20),
-                    Column(
+                    const Text(
+                      'Publish Deal',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Constant.whiteColor,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    IconButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        icon: const Icon(
+                          Icons.close,
+                          color: Constant.whiteColor,
+                        )),
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 25,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 10, left: 20, right: 20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _buildLabeledTextField(
+                        'Business name', businessNameController),
+                    _buildLabeledTextField(
+                        'Business type', businessTypeController),
+                    _buildLabeledTextField('Description', descriptionController,
+                        maxLines: 3),
+                    _buildLabeledTextField('Offer Money', offerMoneyController),
+                    _buildLabeledTextField('Offer Deal', offerDealController),
+                    _buildLabeledTextField(
+                        'Manufacturing', manufacturingController),
+                    _buildLabeledTextField(
+                        'Estimated Price', estimatedPriceController),
+                    const SizedBox(height: 10),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        _buildImagePicker(2, _image2),
-                        const SizedBox(height: 15),
-                        _buildImagePicker(3, _image3),
+                        _buildImagePicker(1, _image1, isLarge: true),
+                        const SizedBox(width: 20),
+                        Column(
+                          children: [
+                            _buildImagePicker(2, _image2),
+                            const SizedBox(height: 15),
+                            _buildImagePicker(3, _image3),
+                          ],
+                        ),
                       ],
+                    ),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    Center(
+                      child: ElevatedButton(
+                        onPressed: () {
+                          publishDeal(); // call Function to publish deal:
+                          //Navigator.pop(context);
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Constant.mainColor,
+                          minimumSize: const Size(double.infinity, 50),
+                        ),
+                        child: const Text(
+                          'Publish Deal',
+                          style: TextStyle(color: Colors.white, fontSize: 18),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 40,
                     ),
                   ],
                 ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Center(
-                  child: ElevatedButton(
-                    onPressed: () {
-                      publishDeal(); // call Function to publish deal:
-                      //Navigator.pop(context);
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Constant.green2Color,
-                      minimumSize: const Size(double.infinity, 50),
-                    ),
-                    child: const Text(
-                      'Publish Deal',
-                      style: TextStyle(color: Colors.white, fontSize: 18),
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 40,
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
@@ -179,10 +216,24 @@ class _PublishDealScreenState extends State<PublishDealScreen> {
               maxLines: maxLines,
               decoration: InputDecoration(
                 filled: true,
-                fillColor: Constant.white4Color,
+                fillColor: Constant.whiteColor,
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(15),
+                  borderSide: const BorderSide(
+                    color: Constant.greyColor4, 
+                  ),
+                ),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(15),
-                  borderSide: BorderSide.none,
+                  borderSide: const BorderSide(
+                    color: Colors.grey,
+                  ),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(15),
+                  borderSide: const BorderSide(
+                    color: Constant.greyColor4,
+                  ),
                 ),
               ),
               validator: (value) {
@@ -207,7 +258,10 @@ class _PublishDealScreenState extends State<PublishDealScreen> {
         width: isLarge ? 200 : 130,
         height: isLarge ? 270 : 130,
         decoration: BoxDecoration(
-            color: Constant.white4Color,
+            color: Constant.whiteColor,
+            border: Border.all(
+              color: Constant.greyColor2,
+            ),
             borderRadius: BorderRadius.circular(15)),
         child: image != null
             ? Image.file(image, fit: BoxFit.cover)
@@ -216,57 +270,3 @@ class _PublishDealScreenState extends State<PublishDealScreen> {
     );
   }
 }
-
-
-
- /*Widget _buildLabeledTextField(String label, {int maxLines = 1}) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 10,top: 20),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
-            flex: 2,
-            child: Text(
-              label,
-              style: TextStyle(fontSize: 16),
-            ),
-          ),
-          Expanded(
-            flex: 5,
-            child: TextFormField(
-              maxLines: maxLines,
-              decoration: InputDecoration(
-                filled: true,
-                fillColor: Colors.grey[300],
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  borderSide: BorderSide.none,
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildImagePicker(int imageNumber, File? image, {bool isLarge = false}) {
-    return GestureDetector(
-      onTap: () => _pick(imageNumber),
-      child: Container(
-        width: isLarge ? 150 : 80,
-        height: isLarge ? 150 : 80,
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey),
-        ),
-        child: image != null
-            ? Image.file(image, fit: BoxFit.cover)
-            : Icon(Icons.upload, size: isLarge ? 30 : 20),
-      ),
-    );
-  }*/
-
-
-
-

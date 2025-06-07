@@ -1,6 +1,9 @@
+
 import 'package:flutter/material.dart';
+import 'package:innovahub_app/Custom_Widgets/deal_investor_card.dart';
+import 'package:innovahub_app/Models/Deals/Business_owner_response.dart';
+import 'package:innovahub_app/core/Api/Api_Manager_deals.dart';
 import 'package:innovahub_app/core/Constants/Colors_Constant.dart';
-import 'package:innovahub_app/home/widget/custom_search_bar.dart';
 
 class DealInvestor extends StatefulWidget {
   const DealInvestor({super.key});
@@ -18,7 +21,12 @@ class _DealInvestorState extends State<DealInvestor> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           
-          const CustomSearchBar(),
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(24),
+            color: Constant.mainColor,
+          ),
+          //const CustomSearchBar(),
 
           const SizedBox( height: 15,),
           
@@ -92,7 +100,7 @@ class _DealInvestorState extends State<DealInvestor> {
             ),
           ),
           const SizedBox(
-            height: 5,
+            height: 20,
           ),
           const Padding(
             padding: EdgeInsets.only(left: 14),
@@ -107,7 +115,31 @@ class _DealInvestorState extends State<DealInvestor> {
           const SizedBox(
             height: 30,
           ),
-          Container(
+         
+         FutureBuilder<List<BusinessOwnerResponse>>(
+              future:ApiManagerDeals.getAllDeals(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator(color: Constant.mainColor,));
+                } else if (snapshot.hasError) {
+                  return Center(child: Text("Error: ${snapshot.error}"));
+                } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                  return const Center(child: Text("No deals found."));
+                }
+
+                final deals = snapshot.data!;
+                return ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: deals.length,
+                  itemBuilder: (context, index) {
+                    return DealCardInvestor(deal: deals[index]);
+                    
+                  },
+                );
+              },
+            ),
+         /* Container(
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
             child: Padding(
               padding: const EdgeInsets.only(left: 20),
@@ -372,7 +404,7 @@ class _DealInvestorState extends State<DealInvestor> {
               ))),
               ),
             ],
-          ),
+          ),*/
          
           const SizedBox( height : 20, ),
 

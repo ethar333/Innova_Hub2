@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:innovahub_app/core/Constants/Colors_Constant.dart';
 import 'package:innovahub_app/home/Deals/deal_tap_investor.dart';
 import 'package:innovahub_app/home/home_Investor.dart';
-import 'package:innovahub_app/home/search_Tap.dart';
 import 'package:innovahub_app/profiles/profile_tap_Investor.dart';
 
 class HomeScreenInvestor extends StatefulWidget {
@@ -59,12 +58,7 @@ class _HomeScreenInvestorState extends State<HomeScreenInvestor> {
               ),
               label: "Deals",
             ),
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.search_outlined,
-              ),
-              label: "Search",
-            ),
+           
             BottomNavigationBarItem(
               icon: Icon(
                 Icons.person_outline,
@@ -95,7 +89,6 @@ class _HomeScreenInvestorState extends State<HomeScreenInvestor> {
     
      const HomeInvestor(),
      const DealInvestor(),
-     const SearchTap(),
      const ProfileInvestor(),
 
   ];

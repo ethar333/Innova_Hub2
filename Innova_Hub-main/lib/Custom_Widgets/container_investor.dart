@@ -4,7 +4,7 @@ import 'package:innovahub_app/core/Api/Api_investor_home_.dart';
 import 'package:innovahub_app/core/Constants/Colors_Constant.dart';
 
 class ContainerInvestor extends StatelessWidget {
-   ContainerInvestor({super.key,required this.investment});
+   const ContainerInvestor({super.key,required this.investment});
 
     final InvestorInvestment investment;
 
@@ -20,15 +20,11 @@ class ContainerInvestor extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
       ),
       child: const Column(
-        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        //crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Column(
-                //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(

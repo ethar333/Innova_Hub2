@@ -1,11 +1,50 @@
+
 import 'package:flutter/material.dart';
 import 'package:innovahub_app/Models/Deals/Business_owner_response.dart';
 import 'package:innovahub_app/core/Constants/Colors_Constant.dart';
+import 'package:quickalert/models/quickalert_type.dart';
+import 'package:quickalert/widgets/quickalert_dialog.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-class DealCard extends StatelessWidget {
+class DealCardInvestor extends StatelessWidget {
   final BusinessOwnerResponse deal;
 
-  const DealCard({super.key, required this.deal});
+  const DealCardInvestor({super.key, required this.deal});
+
+  Future<void> _launchURL() async {
+    final Uri url = Uri.parse('https://innova-web-client-o9f2bm0yn-justmahmuds-projects.vercel.app/owner/Deals');
+    if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
+      throw Exception('Could not launch $url');
+    }
+  }
+   void acceptshowQuickAlertAndNavigate(BuildContext context) {
+    QuickAlert.show(
+      confirmBtnColor: Constant.mainColor,  
+      context: context,
+      type: QuickAlertType.info,
+      title: 'Accepting process',
+      text: 'Please Navigate to browser page to complete..',
+      autoCloseDuration: const Duration(seconds: 2),
+    );
+
+    Future.delayed(const Duration(seconds: 2), () {
+      _launchURL();
+    });
+  }
+    void discussshowAcceptAlert(BuildContext context) {
+    QuickAlert.show(
+      confirmBtnColor: Constant.mainColor,  
+      context: context,
+      type: QuickAlertType.info,
+      title: 'Discussing process',
+      text: 'Please Navigate to browser page to complete..',
+      autoCloseDuration: const Duration(seconds: 2),
+    );
+
+    Future.delayed(const Duration(seconds: 2), () {
+      _launchURL();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,11 +57,14 @@ class DealCard extends StatelessWidget {
         children: [
           Row(
             children: [
-
               const CircleAvatar(
-                radius: 25,
-                backgroundColor: Constant.greyColor2,
-                child: Icon(Icons.person,size: 40,color: Constant.greyColor3,)),
+                  radius: 25,
+                  backgroundColor: Constant.greyColor2,
+                  child: Icon(
+                    Icons.person,
+                    size: 40,
+                    color: Constant.greyColor3,
+                  )),
               /*Image.asset(
                 'assets/images/owner1.png',
                 height: 60,
@@ -38,7 +80,7 @@ class DealCard extends StatelessWidget {
                           fontSize: 15,
                           fontWeight: FontWeight.w400,
                           color: Constant.blackColorDark)),
-                 /* Text("ID: ${deal.businessownerId}",
+                  /* Text("ID: ${deal.businessownerId}",
                       style: const TextStyle(
                           fontSize: 15, color: Constant.greyColor)),*/
                   const Row(
@@ -51,13 +93,13 @@ class DealCard extends StatelessWidget {
                       ),
                       SizedBox(width: 8),
                       Text("Verified",
-                        style: TextStyle(
-                        fontSize: 13, color: Constant.greyColor3))
+                          style: TextStyle(
+                              fontSize: 13, color: Constant.greyColor3))
                     ],
                   )
                 ],
               ),
-               const Spacer(),
+              const Spacer(),
               Text(deal.approvedAt,
                   style: const TextStyle(
                       fontSize: 14, color: Constant.greyColor4)),
@@ -127,7 +169,6 @@ class DealCard extends StatelessWidget {
               style: const TextStyle(
                   fontWeight: FontWeight.bold, color: Constant.mainColor)),
           const SizedBox(height: 10),
-          
           if (deal.images.isNotEmpty)
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -160,6 +201,55 @@ class DealCard extends StatelessWidget {
                 )
               ],
             ),
+          Row(
+            children: [
+              InkWell(
+                onTap: () {
+                acceptshowQuickAlertAndNavigate(context);
+
+                },
+                child: Container(
+                  margin: const EdgeInsets.only(left: 6, top: 15),
+                  padding: const EdgeInsets.all(12),
+                  //height: 40,
+                  width: 190,
+                  decoration: BoxDecoration(
+                    color: Colors.green,
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: const Center(
+                    child: Text(
+                      "Accept Offer",
+                      style: TextStyle(fontSize: 18, color: Colors.white),
+                    ),
+                  ),
+                ),
+              ),
+
+              InkWell(
+                onTap: () {
+                  discussshowAcceptAlert(context);
+                },
+                child: Container(
+                  margin: const EdgeInsets.only(left: 10, top: 15),
+                  padding: const EdgeInsets.all(12),
+                  width: 150,
+                  decoration: BoxDecoration(
+                    color: Constant.yellowColor,
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: ClipRRect(
+                      borderRadius: BorderRadius.circular(15),
+                      child: const Center(
+                          child: Text(
+                        "Discuss Offer",
+                        style:
+                            TextStyle(fontSize: 18, color: Constant.whiteColor),
+                      ))),
+                ),
+              ),
+            ],
+          ),
         ],
       ),
     );
