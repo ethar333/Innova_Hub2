@@ -10,7 +10,7 @@ import 'package:innovahub_app/Models/profiles/User_profile_model.dart';
 import 'package:innovahub_app/core/Constants/Colors_Constant.dart';
 import 'package:innovahub_app/profiles/Widgets/log_out_Textfield.dart';
 import 'package:innovahub_app/profiles/Widgets/textField_user.dart';
-import 'package:innovahub_app/profiles/privacy_user.dart';
+import 'package:innovahub_app/profiles/privacy_owner_investor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileOwner extends StatefulWidget {
@@ -323,14 +323,26 @@ class _ProfileDesignState extends State<ProfileOwner> {
                 }
               },
             ),
+          
+              const SizedBox(height: 15),
+              const Text(
+                    'Keep on track and know the market\nPredict Sales',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Constant.greyColor4,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+
 
             const SizedBox(height: 15),
-            const ContainerUser(icon: Icons.show_chart , title: "Discover your Dashboard",route: null,),     
+          /*  const ContainerUser(icon: Icons.show_chart , title: "Discover your Dashboard",route: null,),     
             const SizedBox(height: 15),
-            const ContainerUser(icon: Icons.lock , title: "Privacy & Security",route: PrivacyUser.routeName ,),     
+            const ContainerUser(icon: Icons.lock , title: "Privacy & Security",route: PrivacyOwnerInvestor.routeName ,),     
             const SizedBox( height: 5,),            
             const SizedBox(height: 20),
-            const LogoutTextField(),
+            const LogoutTextField(),*/
 
             const SizedBox( height: 20,),
 

@@ -1,3 +1,4 @@
+
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -47,6 +48,7 @@ class SearchContainer extends StatefulWidget {
   const SearchContainer({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _SearchContainerState createState() => _SearchContainerState();
 }
 

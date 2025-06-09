@@ -1,11 +1,10 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:innovahub_app/Auth/Auth_Cubit/Auth_cubit.dart';
 import 'package:innovahub_app/Auth/register/register_screen.dart';
 import 'package:innovahub_app/Products/payment_page.dart';
 import 'package:innovahub_app/home/Deals/owner_product.dart';
 import 'package:innovahub_app/home/add_Deal_Tap_owner.dart';
-import 'package:innovahub_app/home/controller/owner_home_layout/owner_home_layout_cubit.dart';
 import 'package:innovahub_app/home/controller/user_home_layout_cubit/user_home_layout_cubit.dart';
 import 'package:innovahub_app/home/home_Tap_Categories.dart';
 import 'package:innovahub_app/home/home_Tap_Investor.dart';
@@ -31,29 +30,18 @@ abstract class AppRouter {
   static final GlobalKey<NavigatorState> navigatorKey =
       GlobalKey<NavigatorState>();
   static Map<String, Widget Function(BuildContext)> routes() => {
-        TrainingPage.routeName: (_) => TrainingPage(),
+        TrainingPage.routeName: (_) => const TrainingPage(),
         SplashScreen.routeName: (_) => const SplashScreen(),
-        RegisterScreen.routeName: (_) => BlocProvider(
-              create: (context) => AuthCubit(),
-              child: const RegisterScreen(),
-            ),
-        LoginScreen.routname: (_) => BlocProvider(
-              create: (context) => AuthCubit(),
-              child: const LoginScreen(),
-            ),
+        RegisterScreen.routeName: (_) => const RegisterScreen(),
+        LoginScreen.routname: (_) => const LoginScreen(),
         ForgetPasswordScreen.routname: (contect) => ForgetPasswordScreen(),
         resetpassword.routname: (_) => const resetpassword(),
         UserHomeScreen.routeName: (_) => BlocProvider(
               create: (context) => UserHomeLayoutCubit(),
               child: const UserHomeScreen(),
             ),
-        HomeScreenOwner.routeName: (_) => BlocProvider(
-              create: (context) => OwnerHomeLayoutCubit(),
-              child: const HomeScreenOwner(),
-            ),
-        // AddingDealOwner.routeName : (_) => AddingDealOwner(),
-        HomeScreenUser.routeName: (_) => HomeScreenUser(),
-        // PrivacySecurityPage.routeName:(_) => PrivacySecurityPage(),
+        HomeScreenOwner.routeName: (_) => const HomeScreenOwner(),
+        HomeScreenUser.routeName: (_) => const HomeScreenUser(),
         HomeScreenInvestor.routeName: (_) => const HomeScreenInvestor(),
         HomeScreenCategories.routeName: (_) => const HomeScreenCategories(),
         ProfileInvestor.routeName: (_) => const ProfileInvestor(),
@@ -62,12 +50,10 @@ abstract class AppRouter {
         PrivacyOwnerInvestor.routeName: (_) => const PrivacyOwnerInvestor(),
         PublishDealScreen.routeName: (_) => const PublishDealScreen(),
         ProductPage.routeName: (_) => const ProductPage(),
-        //CartTap.routeName : (_) => CartTap(),
         CartPage.routeName: (_) => const CartPage(),
-        //BuyPage.routeName: (_) => const BuyPage(),
         CheckoutAddress.routeName: (_) => const CheckoutAddress(),
         OwnerPublish.routeName: (_) => const OwnerPublish(),
         PaymentPage.routeName: (_) => const PaymentPage(),
-        ReviewScreen.routeName:(_) => ReviewScreen(),
+        ReviewScreen.routeName:(_) => const ReviewScreen(),
       };
 }

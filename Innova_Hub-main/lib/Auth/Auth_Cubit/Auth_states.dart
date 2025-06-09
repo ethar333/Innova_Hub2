@@ -47,3 +47,13 @@ class RegisterErrorStata  extends AuthStates{
  LoginErrorState({required this.message});             
   
  } 
+
+class DeleteAccountLoadingState extends AuthStates {}
+
+class DeleteAccountSuccessState extends AuthStates {}
+
+class DeleteAccountErrorState extends AuthStates {
+  final String message;
+  DeleteAccountErrorState({required this.message});
+}
+

@@ -1,11 +1,170 @@
-
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:innovahub_app/Auth/Auth_Cubit/Auth_cubit.dart';
+import 'package:innovahub_app/Auth/Auth_Cubit/Auth_states.dart';
+import 'package:innovahub_app/Auth/register/register_screen.dart';
 import 'package:innovahub_app/core/Api/Api_Change_password.dart';
 import 'package:innovahub_app/core/Constants/Colors_Constant.dart';
 import 'package:innovahub_app/core/services/cache_services.dart';
+import 'package:innovahub_app/profiles/Widgets/change_password_container.dart';
+import 'package:innovahub_app/profiles/Widgets/delete%20_account_dialog.dart';
 
 class PrivacyUser extends StatefulWidget {
+  const PrivacyUser({super.key});
+
+  static const String routeName = 'privacy_user';
+
+  @override
+  State<PrivacyUser> createState() => _PrivacyUserState();
+}
+
+class _PrivacyUserState extends State<PrivacyUser> {
+  final TextEditingController oldPasswordController = TextEditingController();
+  final TextEditingController newPasswordController = TextEditingController();
+
+  Future<void> handleChangePassword() async {
+    final oldPassword = oldPasswordController.text;
+    final newPassword = newPasswordController.text;
+    final token = await CacheService.getString(key: "token");
+
+    if (oldPassword.isEmpty || newPassword.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Please fill in all fields")),
+      );
+      return;
+    }
+
+    final message = await PasswordService().changePassword(
+      oldPassword: oldPassword,
+      newPassword: newPassword,
+      token: token ?? "",
+    );
+
+    if (message == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Password updated successfully")),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(message)),
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocConsumer<AuthCubit, AuthStates>(
+      listener: (context, state) {
+        if (state is DeleteAccountSuccessState) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("Account deleted successfully")),
+          );
+          Navigator.pushNamedAndRemoveUntil(
+            context,
+            RegisterScreen.routeName,
+            (route) => false,
+          );
+        } else if (state is DeleteAccountErrorState) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(state.message)),
+          );
+        }
+      },
+      builder: (context, state) {
+        return Scaffold(
+          appBar: AppBar(
+            centerTitle: true,
+            title: const Text(
+              "Privacy & Security",
+              style: TextStyle(
+                color: Constant.blackColorDark,
+                fontSize: 22,
+              ),
+            ),
+          ),
+          body: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  ChangePasswordContainer(
+                    oldPasswordController: oldPasswordController,
+                    newPasswordController: newPasswordController,
+                    onChangePassword: handleChangePassword,
+                  ),
+                  const SizedBox(height: 30),
+                  // delete account:
+                  Container(
+                    padding: const EdgeInsets.only(left: 8, top: 25, right: 8),
+                    height: 170,
+                    width: 380,
+                    decoration: BoxDecoration(
+                      color: Constant.white3Color,
+                      border: Border.all(width: 1, color: Constant.greyColor2),
+                      borderRadius: BorderRadius.circular(25),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 10),
+                      child: Column(
+                        children: [
+                          const Row(
+                            children: [
+                              Icon(FontAwesomeIcons.trashAlt,
+                                  color: Constant.redColor),
+                              SizedBox(width: 15),
+                              Text(
+                                "Account Deletion",
+                                style: TextStyle(
+                                    fontSize: 20, color: Constant.redColor),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 25),
+                          ElevatedButton(
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (context) => DeleteAccountDialog(
+                                  onConfirm: (password) {
+                                    context
+                                        .read<AuthCubit>()
+                                        .deleteAccount(password);
+                                  },
+                                ),
+                              );
+                            },
+                            style: ElevatedButton.styleFrom(
+                              minimumSize: const Size(double.infinity, 50),
+                              backgroundColor: Constant.mainColor,
+                            ),
+                            child: const Text(
+                              "Delete Account",
+                              style: TextStyle(
+                                  color: Constant.whiteColor, fontSize: 18),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
+
+
+
+
+
+/*class PrivacyUser extends StatefulWidget {
   const PrivacyUser({super.key});
 
   static const String routeName = 'privacy_user';               // routeName of this screen:
@@ -46,78 +205,6 @@ class _PrivacyUserState extends State<PrivacyUser> {
   }
 }
 
-  /*Future<void> changePassword() async {
-    final oldPassword = oldPasswordController.text;
-    final newPassword = newPasswordController.text;
-    final token = await CacheService.getString(key: "token");
-
-    if (oldPassword.isEmpty || newPassword.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Please fill in all fields")),
-      );
-      return;
-    }
-    print("Request Body: ${jsonEncode({
-          "currentPassword": oldPassword,
-          "newPassword": newPassword,
-        })}");
-
-    print("Token: $token");
-
-    try {
-      final response = await http.put(
-        Uri.parse(
-            "https://innova-hub.premiumasp.net/api/Profile/change-password"),
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": "Bearer $token",
-        },
-        body: jsonEncode({
-          "currentPassword": oldPassword,
-          "newPassword": newPassword,
-        }),
-      );
-
-      // Print for debugging
-      print("Status code: ${response.statusCode}");
-      print("Response body: '${response.body}'");
-
-      if (response.statusCode == 200 || response.statusCode == 204) {
-        if (response.body.isEmpty) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text("Password updated successfully")),
-          );
-        } else {
-          final responseData = jsonDecode(response.body);
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-                content: Text(responseData["message"] ??
-                    "Password updated successfully")),
-          );
-        }
-      } else {
-        if (response.body.isEmpty) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-                content:
-                    Text("Something went wrong. Empty response from server.")),
-          );
-        } else {
-          final responseData = jsonDecode(response.body);
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-                content:
-                    Text(responseData["message"] ?? "Something went wrong")),
-          );
-        }
-      }
-    } catch (e) {
-      print("Error occurred: $e");
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Error connecting to server")),
-      );
-    }
-  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -314,7 +401,9 @@ class _PrivacyUserState extends State<PrivacyUser> {
                           height: 25,
                         ),
                         ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+
+                            },
                             style: ElevatedButton.styleFrom(
                               minimumSize: const Size(double.infinity, 50),
                               backgroundColor: Constant.mainColor,
@@ -333,4 +422,4 @@ class _PrivacyUserState extends State<PrivacyUser> {
           ),
         ));
   }
-}
+}*/

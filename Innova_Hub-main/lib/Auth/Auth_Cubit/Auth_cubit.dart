@@ -153,7 +153,43 @@ class AuthCubit extends Cubit <AuthStates>{
   }
 
 
-  // 
+  // delete account:
+   Future<void> deleteAccount(String password) async {
+    emit(DeleteAccountLoadingState());
+
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final token = prefs.getString("token");
+
+      if (token == null) {
+        emit(DeleteAccountErrorState(message: "Token not found"));
+        return;
+      }
+
+      final response = await http.delete(
+        Uri.parse(
+            'https://innova-hub.premiumasp.net/api/Profile/delete-account'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+        body: jsonEncode({
+          "password": password,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        await prefs.clear();
+        emit(DeleteAccountSuccessState());
+      } else {
+        final body = jsonDecode(response.body);
+        emit(DeleteAccountErrorState(
+            message: body["message"] ?? "Failed to delete account"));
+      }
+    } catch (e) {
+      emit(DeleteAccountErrorState(message: "Error: $e"));
+    }
+  }
+}
   
 
-  }

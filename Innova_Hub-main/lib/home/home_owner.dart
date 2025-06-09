@@ -1,7 +1,8 @@
-
 import 'package:flutter/material.dart';
+import 'package:innovahub_app/Models/profiles/User_profile_model.dart';
 import 'package:innovahub_app/Products/product_page.dart';
 import 'package:innovahub_app/core/Api/Api_Manager_categories.dart';
+import 'package:innovahub_app/core/Api/Api_Manager_profiles.dart';
 import 'package:innovahub_app/core/Api/Api_Owner_home.dart';
 import 'package:innovahub_app/core/Constants/Colors_Constant.dart';
 import 'package:innovahub_app/Custom_Widgets/Estimated_container.dart';
@@ -43,6 +44,7 @@ class _HomeOwnerState extends State<HomeOwner> {
       throw Exception('Could not launch $url');
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -54,8 +56,8 @@ class _HomeOwnerState extends State<HomeOwner> {
             padding: const EdgeInsets.all(24),
             color: Constant.mainColor,
           ),
-          const SizedBox(  height: 15, ),
-          
+          const SizedBox(height: 15),
+
           Container(
             margin: const EdgeInsets.all(12),
             padding: const EdgeInsets.all(16),
@@ -66,73 +68,93 @@ class _HomeOwnerState extends State<HomeOwner> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                 Image.asset(
-                  "assets/images/owner1.png",
+                CircleAvatar(
+                  radius: 25,
+                  backgroundColor: Constant.greyColor2,
+                  child: Image.asset('assets/images/owner1.png'),
                 ),
-                const SizedBox(
-                  width: 10,
-                ),
-                const Expanded(
-                  child: Column(
-                    //mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Mohamed Ali',
-                        style: TextStyle(
-                          color: Constant.blackColorDark,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                      Row(
+                const SizedBox(width: 10),
+                FutureBuilder<UserProfile>(
+                  future: ApiManagerProfiles.fetchUserProfile(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      UserProfile user = snapshot.data!;
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          CircleAvatar(
-                            radius: 10,
-                            backgroundColor: Constant.blue3Color,
-                            child: Icon(
-                              Icons.check,
-                              color: Constant.whiteColor,
-                              size: 18,
-                            ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "${user.firstName} ${user.lastName}",
+                                style: const TextStyle(
+                                  color: Constant.blackColorDark,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                              const SizedBox(width: 130,),
+                              const CircleAvatar(
+                                radius: 9,
+                                backgroundColor: Constant.blue3Color,
+                                child: Icon(
+                                  Icons.check,
+                                  color: Constant.whiteColor,
+                                  size: 16,
+                                ),
+                              ),
+                             const SizedBox(
+                                width: 3,
+                              ),
+                              const Text(
+                                'Verified',
+                                style: TextStyle(
+                                  color: Constant.greyColor3,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ],
                           ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Text(
-                            'Verified',
-                            style: TextStyle(
-                              color: Constant.greyColor3,
+                          /*Text(
+                            "${user.firstName} ${user.lastName}",
+                            style: const TextStyle(
+                              color: Constant.blackColorDark,
                               fontSize: 16,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),*/
+                          Container(
+                            constraints: BoxConstraints(
+                              maxWidth: MediaQuery.of(context).size.width * 0.7,
+                            ),
+                            child: Text(
+                              "ID: ${user.roleId}",
+                              softWrap: true,
+                              style: const TextStyle(
+                                color: Constant.greyColor,
+                                fontSize: 15,
+                              ),
                             ),
                           ),
                         ],
-                      ),
-                    ],
-                  ),
+                      );
+                    } else if (snapshot.hasError) {
+                      return Center(child: Text("Error: ${snapshot.error}"));
+                    } else {
+                      return const Center(
+                        child: CircularProgressIndicator(
+                          color: Constant.mainColor,
+                        ),
+                      );
+                    }
+                  },
                 ),
-                const Column(
-                  //mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'ID:2333669591',
-                      style: TextStyle(
-                        color: Constant.greyColor,
-                        fontSize: 15,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                  ],
-                ),
-    
-              ],
-            )
+              ], // End of children of Row
+            ),
           ),
 
           const EstimatedContainer(),
+
           Container(
             margin: const EdgeInsets.all(15),
             padding: const EdgeInsets.all(15),
@@ -144,26 +166,26 @@ class _HomeOwnerState extends State<HomeOwner> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 GestureDetector(
-                  onTap: (){
-
+                  onTap: () {
                     Navigator.pushNamed(context, OwnerPublish.routeName);
                   },
                   child: Container(
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       border: Border.all(
-                        color: Constant.mainColor, 
-                        width: 3, 
+                        color: Constant.mainColor,
+                        width: 3,
                       ),
                     ),
                     child: const CircleAvatar(
-                        backgroundColor: Constant.whiteColor,
-                        radius: 15,
-                        child: Icon(
-                          Icons.add,
-                          color: Constant.mainColor,
-                          size: 30,
-                        )),
+                      backgroundColor: Constant.whiteColor,
+                      radius: 15,
+                      child: Icon(
+                        Icons.add,
+                        color: Constant.mainColor,
+                        size: 30,
+                      ),
+                    ),
                   ),
                 ), // Icon:
 
@@ -199,7 +221,10 @@ class _HomeOwnerState extends State<HomeOwner> {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Padding(
                   padding: EdgeInsets.symmetric(vertical: 20),
-                  child: Center(child: CircularProgressIndicator(color: Constant.mainColor,)),
+                  child: Center(
+                      child: CircularProgressIndicator(
+                    color: Constant.mainColor,
+                  )),
                 );
               }
 
@@ -267,9 +292,9 @@ class _HomeOwnerState extends State<HomeOwner> {
               );
             },
           ),
-          
-        // const ContainerOwner(),
-         /*Center(
+
+          // const ContainerOwner(),
+          /*Center(
            child: ElevatedButton(
               onPressed: () {
                 _launchURL();
@@ -281,7 +306,6 @@ class _HomeOwnerState extends State<HomeOwner> {
               ),
             ),
          )*/
-    
 
           const SizedBox(
             height: 15,
@@ -320,62 +344,59 @@ class _HomeOwnerState extends State<HomeOwner> {
             ),
           ),
 
-           const SizedBox(height: 25,),
+          const SizedBox(
+            height: 25,
+          ),
 
-           // display categories:
-         FutureBuilder<List<CategoryResponse>>(
-        future: ApiManagerCategories.getAllCategories(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
+          // display categories:
+          FutureBuilder<List<CategoryResponse>>(
+            future: ApiManagerCategories.getAllCategories(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(
+                    child: CircularProgressIndicator(
+                  color: Constant.mainColor,
+                ));
+              } else if (snapshot.hasError) {
+                return Center(child: Text("Error: ${snapshot.error}"));
+              } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                return const Center(child: Text("No categories found"));
+              }
 
-            return const Center(child: CircularProgressIndicator(
-             color:Constant.mainColor,
-            ));
+              // server has data:
+              List<CategoryResponse> categoryList = snapshot.data!;
 
-          } else if (snapshot.hasError) {
+              return Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: categoryList.take(3).map((category) {
+                      return Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.all(5),
+                          child: CategoryCard(category: category),
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                  const SizedBox(height: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: categoryList.skip(3).map((category) {
+                      return Padding(
+                          padding: const EdgeInsets.all(5),
+                          child: CategoryCard(category: category));
+                    }).toList(),
+                  ),
+                ],
+              );
+            },
+          ),
 
-            return Center(child: Text("Error: ${snapshot.error}"));
-
-          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-
-            return const Center(child: Text("No categories found"));
-          }
- 
-          // server has data:
-           List<CategoryResponse> categoryList = snapshot.data!;
-
-            return Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: categoryList.take(3).map((category) {
-                    return Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.all(5),
-                        child: CategoryCard(category: category),
-                      ),
-                    );
-                  }).toList(),
-                ),
-                
-                const SizedBox(height: 10),
-
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: categoryList.skip(3).map((category) {
-                    return Padding(
-                      padding: const EdgeInsets.all(5),
-                      child: CategoryCard(category: category)
-                    );
-                  }).toList(),
-                ),
-              ],
-          );
-        },
-      ),
-
-           const SizedBox(height: 20,),
-            Row(
+          const SizedBox(
+            height: 20,
+          ),
+          Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               const SizedBox(
@@ -384,89 +405,97 @@ class _HomeOwnerState extends State<HomeOwner> {
 
               const Text(
                 "Handcraft Carpets",
-                style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,color: Constant.blackColorDark),
+                style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Constant.blackColorDark),
               ),
 
-             // const SizedBox( width: 130,),
-               const Spacer(),
+              // const SizedBox( width: 130,),
+              const Spacer(),
 
-                 InkWell(
-                  onTap: () {
+              InkWell(
+                onTap: () {
                   // Navigator.pushNamed(context, HomeScreenCategories.routeName,);
-                   //arguments:  CategoryItemResponse.localData[21]);
-
-                  },
-                  child: const Row(
-                    children: [
-                      Text(
+                  //arguments:  CategoryItemResponse.localData[21]);
+                },
+                child: const Row(
+                  children: [
+                    Text(
                       "Show All",
                       style: TextStyle(
-                      color: Constant.blueColor,
-                      fontWeight:FontWeight.w400,
-                      fontSize: 15),
-                     ),
-                    Icon(Icons.chevron_right,color: Constant.blackColorDark,)
-                     
-                    ],
-                  ),
+                          color: Constant.blueColor,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 15),
+                    ),
+                    Icon(
+                      Icons.chevron_right,
+                      color: Constant.blackColorDark,
+                    )
+                  ],
                 ),
-                const SizedBox(width: 10,)
+              ),
+              const SizedBox(
+                width: 10,
+              )
             ],
           ),
-      
+
           const SizedBox(
             height: 20,
           ),
-         
-         // display carpets products:
-       FutureBuilder<CategoryModel>(
-        future: ApiManagerCategories.getProducts(12),      // loading data:
 
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
+          // display carpets products:
+          FutureBuilder<CategoryModel>(
+            future: ApiManagerCategories.getProducts(12), // loading data:
 
-            return const Center(child: CircularProgressIndicator(color: Constant.mainColor,));
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(
+                    child: CircularProgressIndicator(
+                  color: Constant.mainColor,
+                ));
+              } else if (snapshot.hasError) {
+                return Center(child: Text("Error: ${snapshot.error}"));
+              } else if (!snapshot.hasData) {
+                return const Center(child: Text("No categories found"));
+              }
 
-          } else if (snapshot.hasError) {
+              // server has data:
 
-            return Center(child: Text("Error: ${snapshot.error}"));
+              var products =
+                  snapshot.data?.allProducts ?? []; // get all products;
 
-          } else if (!snapshot.hasData ) {
-
-            return const Center(child: Text("No categories found"));
-          }
- 
-          // server has data:
-
-         var products = snapshot.data?.allProducts ?? [];     // get all products;
-
-          return SizedBox(
-            height: 350,
-            width: double.infinity,
-            child: ListView.separated(
-              itemBuilder: (context,index){
-
-                return GestureDetector(
-                  onTap: () {
-                    Navigator.pushNamed(context, ProductPage.routeName,
-                    arguments: products[index],);
+              return SizedBox(
+                height: 350,
+                width: double.infinity,
+                child: ListView.separated(
+                  itemBuilder: (context, index) {
+                    return GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(
+                            context,
+                            ProductPage.routeName,
+                            arguments: products[index],
+                          );
+                        },
+                        child: stacklistcart(product: products[index]));
                   },
-                child: stacklistcart(product: products[index]));
-              } , 
-              separatorBuilder:(BuildContext context, int index) {
-                  return const SizedBox(width: 5);
+                  separatorBuilder: (BuildContext context, int index) {
+                    return const SizedBox(width: 5);
                   },
-               itemCount: products.length,
-               scrollDirection: Axis.horizontal,
-               
-            ),
-          );
-        },
-      ),
-        const SizedBox(height: 20,),
+                  itemCount: products.length,
+                  scrollDirection: Axis.horizontal,
+                ),
+              );
+            },
+          ),
+          const SizedBox(
+            height: 20,
+          ),
 
           //Explore other products
-           Row(
+          Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               const SizedBox(
@@ -474,93 +503,99 @@ class _HomeOwnerState extends State<HomeOwner> {
               ),
               const Text(
                 "Shop Necklaces",
-                style: TextStyle(fontSize: 18,fontWeight: FontWeight.w500,color: Constant.blackColorDark),
+                style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
+                    color: Constant.blackColorDark),
               ),
-              
+
               //const SizedBox( width: 150,),
-                const Spacer(),
+              const Spacer(),
 
-
-               InkWell(
-                onTap: () {
-                },
-                 child: const Row(
-                   children: [
-                     Text(
+              InkWell(
+                onTap: () {},
+                child: const Row(
+                  children: [
+                    Text(
                       "Show All",
                       style: TextStyle(
-                      color: Constant.blueColor,
-                      fontWeight:FontWeight.w400,
-                      fontSize: 15),
-                     ),
-                   
-                    Icon(Icons.chevron_right,color: Constant.blackColorDark,)
-                 
-                   ],
-                 ),
-               ),
-                const SizedBox(width: 10,)
-
+                          color: Constant.blueColor,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 15),
+                    ),
+                    Icon(
+                      Icons.chevron_right,
+                      color: Constant.blackColorDark,
+                    )
+                  ],
+                ),
+              ),
+              const SizedBox(
+                width: 10,
+              )
             ],
           ),
-      
+
           const SizedBox(
             height: 20,
           ),
 
+          // display Necklace products:
+          FutureBuilder<CategoryModel>(
+            future: ApiManagerCategories.getProducts(9), // loading data:
 
-        // display Necklace products:
-        FutureBuilder<CategoryModel>(
-        future: ApiManagerCategories.getProducts(9),      // loading data:
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(
+                    child: CircularProgressIndicator(
+                  color: Constant.mainColor,
+                ));
+              } else if (snapshot.hasError) {
+                return Center(child: Text("Error: ${snapshot.error}"));
+              } else if (!snapshot.hasData) {
+                return const Center(child: Text("No categories found"));
+              }
 
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
+              // server has data:
 
-            return const Center(child: CircularProgressIndicator(color: Constant.mainColor,));
+              var products =
+                  snapshot.data?.allProducts ?? []; // get all products;
 
-          } else if (snapshot.hasError) {
-
-            return Center(child: Text("Error: ${snapshot.error}"));
-
-          } else if (!snapshot.hasData ) {
-
-            return const Center(child: Text("No categories found"));
-          }
- 
-          // server has data:
-
-         var products = snapshot.data?.allProducts ?? [];     // get all products;
-
-          return Container(
-             margin: const EdgeInsets.only(left: 15,right: 15),
-             height: 350,
-             width: double.infinity,
-             child: ListView.separated(
-               itemCount: products.length,
-               scrollDirection: Axis.horizontal,
-               itemBuilder: (context, index) {
-
-                 return GestureDetector(
-                  onTap: () {
-                    Navigator.pushNamed(context, ProductPage.routeName,
-                    arguments: products[index],
+              return Container(
+                margin: const EdgeInsets.only(left: 15, right: 15),
+                height: 350,
+                width: double.infinity,
+                child: ListView.separated(
+                  itemCount: products.length,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) {
+                    return GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(
+                            context,
+                            ProductPage.routeName,
+                            arguments: products[index],
+                          );
+                        },
+                        child: stacklisthandmade(
+                          product: products[index],
+                        ));
+                  },
+                  separatorBuilder: (BuildContext context, int index) {
+                    return const SizedBox(
+                      width: 15,
                     );
                   },
-                  child: stacklisthandmade(product: products[index],));
+                ),
+              );
+            },
+          ),
 
-               },
-               separatorBuilder: (BuildContext context, int index) {
-                 return const SizedBox( width: 15, );
+          const SizedBox(
+            height: 30,
+          ),
 
-               },
-             ),
-          );
-        },
-      ),
-
-         const SizedBox(height: 30,),
-
-        Row(
+          Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               const SizedBox(
@@ -568,94 +603,99 @@ class _HomeOwnerState extends State<HomeOwner> {
               ),
               const Text(
                 "Shop Rings",
-                style: TextStyle(fontSize: 18,fontWeight: FontWeight.w500,color: Constant.blackColorDark),
+                style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
+                    color: Constant.blackColorDark),
               ),
-              
+
               //const SizedBox( width: 150,),
               const Spacer(),
 
-               InkWell(
-                onTap: () {
-                },
-                 child: const Row(
-                   children: [
-                     Text(
+              InkWell(
+                onTap: () {},
+                child: const Row(
+                  children: [
+                    Text(
                       "Show All",
                       style: TextStyle(
-                      color: Constant.blueColor,
-                      fontWeight:FontWeight.w400,
-                      fontSize: 15),
+                          color: Constant.blueColor,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 15),
                       textAlign: TextAlign.end,
-                     ),
-                   
-                    Icon(Icons.chevron_right,color: Constant.blackColorDark,)
-                 
-                   ],
-                 ),
-               ),
-                const SizedBox(width: 10,)
-
+                    ),
+                    Icon(
+                      Icons.chevron_right,
+                      color: Constant.blackColorDark,
+                    )
+                  ],
+                ),
+              ),
+              const SizedBox(
+                width: 10,
+              )
             ],
           ),
 
-          const SizedBox(height: 20,),
+          const SizedBox(
+            height: 20,
+          ),
 
-       // display Rings products:
-        FutureBuilder<CategoryModel>(
-        future: ApiManagerCategories.getProducts(13),      // loading data:
+          // display Rings products:
+          FutureBuilder<CategoryModel>(
+            future: ApiManagerCategories.getProducts(13), // loading data:
 
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(
+                    child: CircularProgressIndicator(
+                  color: Constant.mainColor,
+                ));
+              } else if (snapshot.hasError) {
+                return Center(child: Text("Error: ${snapshot.error}"));
+              } else if (!snapshot.hasData) {
+                return const Center(child: Text("No categories found"));
+              }
 
-            return const Center(child: CircularProgressIndicator(color: Constant.mainColor,));
+              // server has data:
 
-          } else if (snapshot.hasError) {
+              var products =
+                  snapshot.data?.allProducts ?? []; // get all products;
 
-            return Center(child: Text("Error: ${snapshot.error}"));
-
-          } else if (!snapshot.hasData ) {
-
-            return const Center(child: Text("No categories found"));
-          }
- 
-          // server has data:
-
-         var products = snapshot.data?.allProducts ?? [];     // get all products;
-
-          return Container(
-             margin: const EdgeInsets.only(left: 15,right: 15),
-             height: 350,
-             width: double.infinity,
-             child: ListView.separated(
-               itemCount: products.length,
-               scrollDirection: Axis.horizontal,
-               itemBuilder: (context, index) {
-
-                 return GestureDetector(
-                  onTap: () {
-                    Navigator.pushNamed(context, ProductPage.routeName,
-                    arguments: products[index],);
+              return Container(
+                margin: const EdgeInsets.only(left: 15, right: 15),
+                height: 350,
+                width: double.infinity,
+                child: ListView.separated(
+                  itemCount: products.length,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) {
+                    return GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(
+                            context,
+                            ProductPage.routeName,
+                            arguments: products[index],
+                          );
+                        },
+                        child: stacklisthandmade(
+                          product: products[index],
+                        ));
                   },
-                  child: stacklisthandmade(product: products[index],));
-
-               },
-               separatorBuilder: (BuildContext context, int index) {
-                 return const SizedBox( width: 15, );
-
-               },
-             ),
-          );
-        },
-      ),
+                  separatorBuilder: (BuildContext context, int index) {
+                    return const SizedBox(
+                      width: 15,
+                    );
+                  },
+                ),
+              );
+            },
+          ),
           /*const SizedBox(
             height: 40,
           ),*/
         ],
-
       ),
     );
   }
- 
 }
-
-

@@ -42,6 +42,7 @@ class _HomeScreenOwnerState extends State<HomeScreenOwner> {
         builder: (context, state) {
           return PageView.builder(
             controller: OwnerHomeLayoutCubit.get(context).pageController,
+              itemCount: OwnerHomeLayoutModel.screens.length, 
             onPageChanged: (value) {
               OwnerHomeLayoutCubit.get(context).changePage(value);
             },

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "51947426164",
+    "project_id": "innova-hub-239af",
+    "storage_bucket": "innova-hub-239af.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:51947426164:android:3e31a80251b67e0b461c21",
+        "android_client_info": {
+          "package_name": "com.example.innovahub_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDCqt6uirlqByxinR3hlCHaJquihwS2s-Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
