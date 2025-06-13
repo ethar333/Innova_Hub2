@@ -22,16 +22,13 @@ class _DealInvestorState extends State<DealInvestor> {
         //mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          
           Container(
             width: double.infinity,
             padding: const EdgeInsets.all(24),
             color: Constant.mainColor,
           ),
           //const CustomSearchBar(),
-
           const SizedBox( height: 15,),
-           
           Container(
             margin: const EdgeInsets.all(12),
             padding: const EdgeInsets.all(16),

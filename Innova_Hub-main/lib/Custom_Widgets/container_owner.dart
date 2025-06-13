@@ -37,7 +37,7 @@ class InvestmentContainer extends StatelessWidget {
                   const SizedBox(height: 3),
                   Text(
                     investment.projectName,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 12,
                       color: Constant.blackColorDark,
                       fontWeight: FontWeight.w500,
@@ -48,8 +48,8 @@ class InvestmentContainer extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'Investment Amount',
+                  const Text(
+                    'Total Profit',
                     style: TextStyle(
                       fontSize: 15,
                       color: Constant.mainColor,
@@ -58,8 +58,8 @@ class InvestmentContainer extends StatelessWidget {
                   ),
                   const SizedBox(height: 3),
                   Text(
-                    '${investment.investmentAmount.toStringAsFixed(2)} EGP',
-                    style: TextStyle(
+                    '${investment.totalProfit.toStringAsFixed(2)} EGP',
+                    style: const TextStyle(
                       fontSize: 13,
                       color: Constant.blackColorDark,
                       fontWeight: FontWeight.w500,
@@ -69,7 +69,7 @@ class InvestmentContainer extends StatelessWidget {
               ),
               Column(
                 children: [
-                  Text(
+                  const Text(
                     '%',
                     style: TextStyle(
                       fontSize: 18,
@@ -79,8 +79,8 @@ class InvestmentContainer extends StatelessWidget {
                   ),
                   const SizedBox(height: 3),
                   Text(
-                    '${investment.equityPercentage.toStringAsFixed(2)}%',
-                    style: TextStyle(
+                    '${investment.offerDeal.toStringAsFixed(2)}%',
+                    style: const TextStyle(
                         fontSize: 13,
                         color: Constant.greenColor,
                         fontWeight: FontWeight.w500),
@@ -99,7 +99,7 @@ class InvestmentContainer extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text(
+                  const Text(
                     'Status',
                     style: TextStyle(
                       fontSize: 15,
@@ -120,8 +120,8 @@ class InvestmentContainer extends StatelessWidget {
               ),
               Column(
                 children: [
-                  Text(
-                    'Duration',
+                  const Text(
+                    'Duration In months',
                     style: TextStyle(
                       fontSize: 15,
                       color: Constant.mainColor,
@@ -131,7 +131,7 @@ class InvestmentContainer extends StatelessWidget {
                   const SizedBox(height: 3),
                   Text(
                     '${investment.durationInMonths} months',
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 13,
                       color: Constant.blackColorDark,
                       fontWeight: FontWeight.w500,
@@ -141,7 +141,7 @@ class InvestmentContainer extends StatelessWidget {
               ),
               Column(
                 children: [
-                  Text(
+                  const Text(
                     'ID',
                     style: TextStyle(
                       fontSize: 15,
@@ -151,8 +151,8 @@ class InvestmentContainer extends StatelessWidget {
                   ),
                   const SizedBox(height: 3),
                   Text(
-                    investment.investmentId.toString(),
-                    style: TextStyle(
+                    investment.dealId.toString(),
+                    style:const TextStyle(
                         fontSize: 13,
                         color: Constant.blackColorDark,
                         fontWeight: FontWeight.w500),
@@ -179,3 +179,4 @@ class InvestmentContainer extends StatelessWidget {
     }
   }
 }
+

@@ -1,18 +1,17 @@
-import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:innovahub_app/Auth/Auth_Cubit/Auth_cubit.dart';
 import 'package:innovahub_app/Auth/Auth_Cubit/Auth_states.dart';
 import 'package:innovahub_app/Auth/register/register_screen.dart';
 import 'package:innovahub_app/core/Api/Api_Change_password.dart';
-import 'package:innovahub_app/core/Api/Api_identity_owner_investor.dart';
 import 'package:innovahub_app/core/Constants/Colors_Constant.dart';
 import 'package:innovahub_app/core/services/cache_services.dart';
-import 'package:innovahub_app/profiles/Widgets/Imagepicker_build.dart';
-import 'package:innovahub_app/profiles/Widgets/change_password_container.dart';
-import 'package:innovahub_app/profiles/Widgets/delete%20_account_dialog.dart';
+import 'package:innovahub_app/profiles/Widgets/Delete_account_card.dart';
+import 'package:innovahub_app/profiles/Widgets/Signature_card.dart';
+import 'package:innovahub_app/profiles/Widgets/change_password_card.dart';
+import 'package:innovahub_app/profiles/Widgets/connect_stripe_card.dart';
+import 'package:innovahub_app/profiles/Widgets/identity_verification_card.dart';
 
 class PrivacyOwnerInvestor extends StatefulWidget {
   const PrivacyOwnerInvestor({super.key});
@@ -23,27 +22,10 @@ class PrivacyOwnerInvestor extends StatefulWidget {
 }
 
 class _PrivacyOwnerInvestorState extends State<PrivacyOwnerInvestor> {
+  String? selectedPlatform;
   final TextEditingController oldPasswordController = TextEditingController();
   final TextEditingController newPasswordController = TextEditingController();
-  File? _frontImage;
-  File? _backImage;
 
-  final ImagePicker _picker = ImagePicker();
-
-  Future<void> _pickImage(bool isFront) async {
-    final XFile? pickedFile =
-        await _picker.pickImage(source: ImageSource.gallery); // أو .camera
-
-    if (pickedFile != null) {
-      setState(() {
-        if (isFront) {
-          _frontImage = File(pickedFile.path);
-        } else {
-          _backImage = File(pickedFile.path);
-        }
-      });
-    }
-  }
 
   Future<void> handleChangePassword() async {
     final oldPassword = oldPasswordController.text;
@@ -95,7 +77,9 @@ class _PrivacyOwnerInvestorState extends State<PrivacyOwnerInvestor> {
       },
       builder: (context, state) {
         return Scaffold(
+          backgroundColor: Constant.whiteColor,
           appBar: AppBar(
+            backgroundColor: Constant.whiteColor,
             centerTitle: true,
             title: const Row(
               children: [
@@ -118,111 +102,17 @@ class _PrivacyOwnerInvestorState extends State<PrivacyOwnerInvestor> {
               child: Column(
                 children: [
                   // Container for ID verification
-                  Container(
-                    padding: const EdgeInsets.only(left: 8, top: 10, right: 8),
-                    height: 340,
-                    width: 380,
-                    decoration: BoxDecoration(
-                      color: Constant.white3Color,
-                      border: Border.all(width: 1, color: Constant.greyColor2),
-                      borderRadius: BorderRadius.circular(25),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 10),
-                      child: Column(
-                        children: [
-                          const Row(
-                            children: [
-                              Icon(Icons.person_pin_outlined,
-                                  color: Constant.mainColor, size: 30),
-                              SizedBox(width: 15),
-                              Text(
-                                "Identity Verification",
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  color: Constant.blackColorDark,
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 15),
-                          const Row(
-                            children: [
-                              Text(
-                                'You must provide a valid and clear ID images.',
-                                style: TextStyle(color: Constant.greyColor4),
-                              ),
-                            ],
-                          ),
-                          const Row(
-                            children: [
-                              Text(
-                                'Send ID Front and Back image.',
-                                style: TextStyle(color: Constant.greyColor4),
-                              ),
-                            ],
-                          ),
-                          const Row(
-                            children: [
-                              Text(
-                                'Reviewing ID may take some time.',
-                                style: TextStyle(color: Constant.greyColor4),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 15),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              ImagePickerBuild(
-                                label: "Front ID Image",
-                                image: _frontImage,
-                                onTap: () => _pickImage(true),
-                              ),
-                              ImagePickerBuild(
-                                label: "Back ID Image",
-                                image: _backImage,
-                                onTap: () => _pickImage(false),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 20),
-                          ElevatedButton(
-                            onPressed: () {
-                              if (_frontImage != null && _backImage != null) {
-                                final uploader = IdCardUploader(
-                                  frontImage: _frontImage!,
-                                  backImage: _backImage!,
-                                );
-                                uploader.upload(context);
-                              } else {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text("Please select both images."),
-                                  ),
-                                );
-                              }
-                            },
-                            style: ElevatedButton.styleFrom(
-                              minimumSize: const Size(double.infinity, 50),
-                              backgroundColor: Constant.mainColor,
-                            ),
-                            child: const Text(
-                              "Send Images",
-                              style: TextStyle(
-                                  color: Constant.whiteColor, fontSize: 18),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-
+                  const IdentityVerificationCard(),
                   const SizedBox(height: 15),
-
-                  /// Change Password Container (مفصول في Widget)
-                  ChangePasswordContainer(
+                  const SignatureUploadCard(),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  // Stripe Account Card
+                  const ConnectStripeCard(),
+                  const SizedBox(height: 15),
+                  // Change Password Container:
+                  ChangePasswordCard(
                     oldPasswordController: oldPasswordController,
                     newPasswordController: newPasswordController,
                     onChangePassword: handleChangePassword,
@@ -231,63 +121,7 @@ class _PrivacyOwnerInvestorState extends State<PrivacyOwnerInvestor> {
                   const SizedBox(height: 15),
 
                   /// Delete Account
-                  Container(
-                    padding: const EdgeInsets.only(left: 8, top: 15, right: 8),
-                    height: 150,
-                    width: 380,
-                    decoration: BoxDecoration(
-                      color: Constant.white3Color,
-                      border: Border.all(width: 1, color: Constant.greyColor2),
-                      borderRadius: BorderRadius.circular(25),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 10),
-                      child: Column(
-                        children: [
-                          const Row(
-                            children: [
-                              Icon(FontAwesomeIcons.trashAlt,
-                                  color: Constant.redColor),
-                              SizedBox(width: 15),
-                              Text(
-                                "Account Deletion",
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  color: Constant.redColor,
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 25),
-                          ElevatedButton(
-                            onPressed: () {
-                              showDialog(
-                                context: context,
-                                builder: (context) => DeleteAccountDialog(
-                                  onConfirm: (password) {
-                                    context
-                                        .read<AuthCubit>()
-                                        .deleteAccount(password);
-                                  },
-                                ),
-                              );
-                            },
-                            style: ElevatedButton.styleFrom(
-                              minimumSize: const Size(double.infinity, 50),
-                              backgroundColor: Constant.mainColor,
-                            ),
-                            child: const Text(
-                              "Delete Account",
-                              style: TextStyle(
-                                  color: Constant.whiteColor, fontSize: 18),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-
+                  const DeleteAccountCard(),
                   const SizedBox(height: 20),
                 ],
               ),

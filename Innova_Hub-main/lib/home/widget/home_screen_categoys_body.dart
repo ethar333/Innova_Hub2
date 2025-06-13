@@ -86,7 +86,7 @@ class _CategoryScreenState extends State<HomeScreenCategorysBody> {
               ),
             ),
             width: double.infinity,
-            height: 220,
+            height: 160,
             child: Padding(
               padding: const EdgeInsets.all(8),
               child: Column(

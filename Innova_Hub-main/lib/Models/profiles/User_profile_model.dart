@@ -12,6 +12,7 @@ class UserProfile {
   final String? profileImageUrl;
   final String? profileCoverUrl;
   final num? totalBalance;
+  final bool isVerified;
 
 
   UserProfile({
@@ -26,6 +27,7 @@ class UserProfile {
     this.profileImageUrl,
     this.profileCoverUrl,
     this.totalBalance,
+    required this.isVerified,
   });
 
   factory UserProfile.fromJson(Map<String, dynamic> json) {
@@ -41,10 +43,11 @@ class UserProfile {
       roleId: json['RoleId'] ?? '',
       profileCoverUrl: json['ProfileCoverUrl'] ?? '',
       totalBalance: json['TotalBalance'],
+      isVerified: json['IsVerified'] ?? false,
     );
   }
   @override
   String toString() {
-  return "firstName: $firstName, lastName: $lastName, email: $email, city: $city, phoneNumber: $phoneNumber, district: $district, roleName: $roleName, profileImageUrl: $profileImageUrl, roleId: $roleId, profileCoverUrl: $profileCoverUrl, totalBalance: $totalBalance";
+  return "firstName: $firstName, lastName: $lastName, email: $email, city: $city, phoneNumber: $phoneNumber, district: $district, roleName: $roleName, profileImageUrl: $profileImageUrl, roleId: $roleId, profileCoverUrl: $profileCoverUrl, totalBalance: $totalBalance,isVerified: $isVerified";
   }
 }

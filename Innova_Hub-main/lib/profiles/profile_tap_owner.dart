@@ -1,4 +1,3 @@
-
 import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/material.dart';
@@ -8,6 +7,8 @@ import 'package:innovahub_app/core/Api/Api_Manager_profiles.dart';
 import 'package:innovahub_app/Custom_Widgets/Text_Field_profile.dart';
 import 'package:innovahub_app/Models/profiles/User_profile_model.dart';
 import 'package:innovahub_app/core/Constants/Colors_Constant.dart';
+import 'package:innovahub_app/profiles/Current_Deals_Owner.dart';
+import 'package:innovahub_app/profiles/Widgets/Custom_Text_Field.dart';
 import 'package:innovahub_app/profiles/Widgets/log_out_Textfield.dart';
 import 'package:innovahub_app/profiles/Widgets/textField_user.dart';
 import 'package:innovahub_app/profiles/privacy_owner_investor.dart';
@@ -39,7 +40,6 @@ class _ProfileDesignState extends State<ProfileOwner> {
     _loadProfileImage();
   }
 
-  // تحميل الصورة المخزنة مسبقًا من SharedPreferences
   Future<void> _loadProfileImage() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -47,7 +47,6 @@ class _ProfileDesignState extends State<ProfileOwner> {
     });
   }
 
-  // اختيار ورفع الصورة مباشرة
   Future<void> _pickAndUploadImage() async {
     final pickedFile =
         await ImagePicker().pickImage(source: ImageSource.gallery);
@@ -70,7 +69,6 @@ class _ProfileDesignState extends State<ProfileOwner> {
       setState(() {
         _isUploading = false;
       });
-
     }
   }
 
@@ -80,7 +78,7 @@ class _ProfileDesignState extends State<ProfileOwner> {
     if (isDeleted) {
       setState(() {
         _imageUrl = null;
-        _profileImage = null; // إعادة تعيين المتغيرات عند الحذف
+        _profileImage = null;
       });
     }
   }
@@ -91,67 +89,70 @@ class _ProfileDesignState extends State<ProfileOwner> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            const SizedBox(height: 25),
+            // const SizedBox(height: 25),
             Container(
               width: double.infinity,
               height: 200,
               decoration: const BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage('assets/images/background1.png'),
-                  fit: BoxFit.cover,
+                  fit: BoxFit.fill,
                 ),
               ),
               child: Center(
-                child: Stack(
-                  children: [
-                    CircleAvatar(
-                      radius: 55, // حجم الدائرة
-                      backgroundImage:
-                          _imageUrl != null ? NetworkImage(_imageUrl!) : null,
-                      backgroundColor: Colors.grey.shade300,
-                      child: (_imageUrl == null)
-                          ? const Icon(Icons.person,
-                              size: 65, color: Constant.greyColor4)
-                          : null,
-                    ),
-
-                    Positioned(
-                      bottom: 0,
-                      right: 0,
-                      child: GestureDetector(
-                        onTap: _pickAndUploadImage,
-                        child: CircleAvatar(
-                          radius: 14,
-                          backgroundColor: Constant.mainColor,
-                          child: _isUploading
-                              ? const CircularProgressIndicator(
-                                  color: Colors.white)
-                              : const Icon(
-                                  Icons.camera_alt,
-                                  color: Constant.whiteColor,
-                                  size: 16,
-                                ),
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 30),
+                  child: Stack(
+                    children: [
+                      CircleAvatar(
+                        radius: 55,
+                        backgroundImage:
+                            _imageUrl != null ? NetworkImage(_imageUrl!) : null,
+                        backgroundColor: Colors.grey.shade300,
+                        child: (_imageUrl == null)
+                            ? const Icon(Icons.person,
+                                size: 65, color: Constant.greyColor4)
+                            : null,
+                      ),
+                  
+                      Positioned(
+                        bottom: 0,
+                        right: 0,
+                        child: GestureDetector(
+                          onTap: _pickAndUploadImage,
+                          child: CircleAvatar(
+                            radius: 14,
+                            backgroundColor: Constant.mainColor,
+                            child: _isUploading
+                                ? const CircularProgressIndicator(
+                                    color: Colors.white)
+                                : const Icon(
+                                    Icons.camera_alt,
+                                    color: Constant.whiteColor,
+                                    size: 16,
+                                  ),
+                          ),
                         ),
                       ),
-                    ),
-
-                    // delete Image Icon:
-                    Positioned(
-                      top: 5,
-                      right: 5,
-                      child: GestureDetector(
-                        onTap: () async {
-                          await _deleteProfileImage(); // استدعاء الدالة مع تحديث الواجهة
-                        },
-                        child: const CircleAvatar(
-                          radius: 13,
-                          backgroundColor: Constant.mainColor,
-                          child: Icon(FontAwesomeIcons.trash,
-                              color: Colors.white, size: 13),
+                  
+                      // delete Image Icon:
+                      Positioned(
+                        top: 5,
+                        right: 5,
+                        child: GestureDetector(
+                          onTap: () async {
+                            await _deleteProfileImage();
+                          },
+                          child: const CircleAvatar(
+                            radius: 13,
+                            backgroundColor: Constant.mainColor,
+                            child: Icon(FontAwesomeIcons.trash,
+                                color: Colors.white, size: 13),
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -163,7 +164,6 @@ class _ProfileDesignState extends State<ProfileOwner> {
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   UserProfile user = snapshot.data!; // receive data:
-
                   return Container(
                     width: double.infinity,
                     height: 70,
@@ -189,23 +189,15 @@ class _ProfileDesignState extends State<ProfileOwner> {
                                   fontSize: 16,
                                 ),
                               ),
-                              const Text(
-                                "ID:123465678",
-                                style: TextStyle(
-                                  color: Constant.whiteColor,
-                                  fontWeight: FontWeight.w200,
-                                  fontSize: 16,
-                                ),
-                              ),
                             ],
                           ),
-                            Column(
+                          Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Row(
                                 children: [
-                                 const Text(
+                                  const Text(
                                     "Role:",
                                     style: TextStyle(
                                       color: Constant.whiteColor,
@@ -214,7 +206,9 @@ class _ProfileDesignState extends State<ProfileOwner> {
                                     ),
                                     textAlign: TextAlign.end,
                                   ),
-                                  const SizedBox(width: 2,),
+                                  const SizedBox(
+                                    width: 2,
+                                  ),
                                   Text(
                                     user.roleName ?? "N/A",
                                     style: const TextStyle(
@@ -228,7 +222,7 @@ class _ProfileDesignState extends State<ProfileOwner> {
                               const Row(
                                 children: [
                                   CircleAvatar(
-                                    radius: 7,
+                                    radius: 8,
                                     backgroundColor: Constant.whiteColor,
                                     child: Icon(
                                       Icons.check,
@@ -265,8 +259,38 @@ class _ProfileDesignState extends State<ProfileOwner> {
               },
             ),
 
-            const SizedBox(height: 10),
-
+            const SizedBox(height: 13),
+           FutureBuilder<UserProfile>(
+              future: ApiManagerProfiles.fetchUserProfile(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  UserProfile user = snapshot.data!;
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 30),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        "ID: ${user.roleId} ",
+                        style: const TextStyle(
+                          color: Constant.greyColor,
+                          fontWeight: FontWeight.w300,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                  );
+                } else if (snapshot.hasError) {
+                  return Center(child: Text("Error: ${snapshot.error}"));
+                } else {
+                  return const Center(
+                    child: CircularProgressIndicator(
+                      color: Constant.mainColor,
+                    ),
+                  );
+                }
+              },
+            ),
+            const Divider(indent: 30, endIndent: 35, color: Constant.greyColor2),
             // display user info:
             FutureBuilder<UserProfile>(
               future: ApiManagerProfiles.fetchUserProfile(),
@@ -318,39 +342,170 @@ class _ProfileDesignState extends State<ProfileOwner> {
                 } else {
                   return const Center(
                       child: CircularProgressIndicator(
-                      color: Constant.mainColor,
+                    color: Constant.mainColor,
                   ));
                 }
               },
             ),
-          
-              const SizedBox(height: 15),
-              const Text(
-                    'Keep on track and know the market\nPredict Sales',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Constant.greyColor4,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w400,
+
+            const SizedBox(height: 15),
+            const Text(
+              'Keep on track and know the market\nPredict Sales',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Constant.greyColor4,
+                fontSize: 18,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+            const SizedBox(height: 15),
+            Container(
+              margin: const EdgeInsets.all(10),
+              //padding: EdgeInsets.all(15),
+              width: double.infinity,
+              decoration: const BoxDecoration(
+                color: Constant.white3Color,
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 14),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      //  margin: const EdgeInsets.only(left: 10, right: 10),
+                      padding: const EdgeInsets.only(left: 15, top: 15),
+                      decoration: const BoxDecoration(
+                        color: Constant.mainColor,
+                        borderRadius: BorderRadius.only(
+                          // Radius.circular(10)
+                          topRight: Radius.circular(30),
+                          bottomLeft: Radius.circular(5),
+                          topLeft: Radius.circular(5),
+                        ),
+                      ),
+                      width: double.infinity,
+                      height: 60,
+                      child: const Text(
+                        'Predict With AI',
+                        style: TextStyle(
+                          color: Constant.whiteColor,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
-                  ),
-
-
+                    const SizedBox(height: 16),
+                    Container(
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Constant.greyColor4,
+                        ),
+                        color: const Color(0xFFEAF2FB),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: const Padding(
+                        padding: EdgeInsets.all(12.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Recommendation prediction',
+                              style: TextStyle(
+                                color: Color(0xFF156BA3),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
+                            ),
+                            SizedBox(height: 4),
+                            Text(
+                              'Get all recommendation for best products capable for selling in the season',
+                              style: TextStyle(
+                                color: Constant.greyColor4,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    const CustomTextFieldPredict(hint: 'Product Ad-Budget'),
+                    const SizedBox(height: 12),
+                    const CustomTextFieldPredict(hint: 'Product Unit Price'),
+                    const SizedBox(height: 12),
+                    const CustomTextFieldPredict(hint: 'Product Unit Sold'),
+                    const SizedBox(height: 12),
+                    const CustomTextFieldPredict(hint: 'Product Type Code'),
+                    const SizedBox(height: 12),
+                    const CustomTextFieldPredict(hint: 'Product Season Code'),
+                    const SizedBox(height: 12),
+                    const CustomDropdown(),
+                    const SizedBox(height: 20),
+                    SizedBox(
+                      width: double.infinity,
+                      height: 44,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Constant.mainColor,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                        ),
+                        onPressed: () {},
+                        child: const Text(
+                          'Apply',
+                          style: TextStyle(
+                              color: Constant.whiteColor,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
             const SizedBox(height: 15),
-          /*  const ContainerUser(icon: Icons.show_chart , title: "Discover your Dashboard",route: null,),     
+
+            const Divider(
+              indent: 20,
+              endIndent: 20,
+              color: Constant.greyColor2,
+              thickness: 1,
+            ),
             const SizedBox(height: 15),
-            const ContainerUser(icon: Icons.lock , title: "Privacy & Security",route: PrivacyOwnerInvestor.routeName ,),     
-            const SizedBox( height: 5,),            
-            const SizedBox(height: 20),
-            const LogoutTextField(),*/
 
-            const SizedBox( height: 20,),
+            const ContainerUser(
+              icon: Icons.show_chart,
+              title: "Discover your Dashboard",
+              route: null,
+            ),
+            const SizedBox(height: 15),
+            const ContainerUser(
+              icon: Icons.show_chart_sharp,
+              title: "My Current Deals",
+              route: MyCurrentDealsPage.routeName,
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            const ContainerUser(
+              icon: Icons.lock,
+              title: "Privacy & Security",
+              route: PrivacyOwnerInvestor.routeName,
+            ),
+            const SizedBox(height: 30),
+            const LogoutTextField(),
 
+            const SizedBox(
+              height: 20,
+            ),
           ],
         ),
       ),
     );
   }
-
 }
-

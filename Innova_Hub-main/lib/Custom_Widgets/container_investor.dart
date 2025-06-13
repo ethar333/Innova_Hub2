@@ -6,8 +6,7 @@ import 'package:innovahub_app/core/Constants/Colors_Constant.dart';
 class ContainerInvestor extends StatelessWidget {
    const ContainerInvestor({super.key,required this.investment});
 
-    final InvestorInvestment investment;
-
+    final InvestorInvestment investment;    // object from model:
 
   @override
   Widget build(BuildContext context) {

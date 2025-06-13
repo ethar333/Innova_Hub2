@@ -1,14 +1,14 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:innovahub_app/Auth/Auth_Cubit/Auth_cubit.dart';
 import 'package:innovahub_app/Auth/Auth_Cubit/Auth_states.dart';
 import 'package:innovahub_app/Auth/register/register_screen.dart';
 import 'package:innovahub_app/core/Api/Api_Change_password.dart';
 import 'package:innovahub_app/core/Constants/Colors_Constant.dart';
 import 'package:innovahub_app/core/services/cache_services.dart';
-import 'package:innovahub_app/profiles/Widgets/change_password_container.dart';
-import 'package:innovahub_app/profiles/Widgets/delete%20_account_dialog.dart';
+import 'package:innovahub_app/profiles/Widgets/Delete_account_card.dart';
+import 'package:innovahub_app/profiles/Widgets/change_password_card.dart';
 
 class PrivacyUser extends StatefulWidget {
   const PrivacyUser({super.key});
@@ -73,7 +73,9 @@ class _PrivacyUserState extends State<PrivacyUser> {
       },
       builder: (context, state) {
         return Scaffold(
+          backgroundColor: Constant.whiteColor,
           appBar: AppBar(
+            backgroundColor: Constant.whiteColor,
             centerTitle: true,
             title: const Text(
               "Privacy & Security",
@@ -88,67 +90,14 @@ class _PrivacyUserState extends State<PrivacyUser> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  ChangePasswordContainer(
+                  ChangePasswordCard(
                     oldPasswordController: oldPasswordController,
                     newPasswordController: newPasswordController,
                     onChangePassword: handleChangePassword,
                   ),
                   const SizedBox(height: 30),
                   // delete account:
-                  Container(
-                    padding: const EdgeInsets.only(left: 8, top: 25, right: 8),
-                    height: 170,
-                    width: 380,
-                    decoration: BoxDecoration(
-                      color: Constant.white3Color,
-                      border: Border.all(width: 1, color: Constant.greyColor2),
-                      borderRadius: BorderRadius.circular(25),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 10),
-                      child: Column(
-                        children: [
-                          const Row(
-                            children: [
-                              Icon(FontAwesomeIcons.trashAlt,
-                                  color: Constant.redColor),
-                              SizedBox(width: 15),
-                              Text(
-                                "Account Deletion",
-                                style: TextStyle(
-                                    fontSize: 20, color: Constant.redColor),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 25),
-                          ElevatedButton(
-                            onPressed: () {
-                              showDialog(
-                                context: context,
-                                builder: (context) => DeleteAccountDialog(
-                                  onConfirm: (password) {
-                                    context
-                                        .read<AuthCubit>()
-                                        .deleteAccount(password);
-                                  },
-                                ),
-                              );
-                            },
-                            style: ElevatedButton.styleFrom(
-                              minimumSize: const Size(double.infinity, 50),
-                              backgroundColor: Constant.mainColor,
-                            ),
-                            child: const Text(
-                              "Delete Account",
-                              style: TextStyle(
-                                  color: Constant.whiteColor, fontSize: 18),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
+                   const DeleteAccountCard(),
                 ],
               ),
             ),
@@ -158,6 +107,11 @@ class _PrivacyUserState extends State<PrivacyUser> {
     );
   }
 }
+
+
+
+
+
 
 
 

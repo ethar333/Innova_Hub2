@@ -12,6 +12,7 @@ import 'package:innovahub_app/home/home_Tap_User.dart';
 import 'package:innovahub_app/home/home_Tap_owner.dart';
 import 'package:innovahub_app/home/user_home_screen.dart';
 import 'package:innovahub_app/home/register_page.dart';
+import 'package:innovahub_app/profiles/Current_Deals_Owner.dart';
 import 'package:innovahub_app/profiles/Widgets/myorder.dart';
 import 'package:innovahub_app/profiles/privacy_owner_investor.dart';
 import 'package:innovahub_app/profiles/privacy_user.dart';
@@ -26,7 +27,7 @@ import 'package:innovahub_app/Auth/login/login_screen.dart';
 import 'package:innovahub_app/Auth/login/reset_password.dart';
 
 abstract class AppRouter {
-  static const String initRoute = RegisterScreen.routeName;
+  static const String initRoute =  RegisterScreen.routeName;
   static final GlobalKey<NavigatorState> navigatorKey =
       GlobalKey<NavigatorState>();
   static Map<String, Widget Function(BuildContext)> routes() => {
@@ -55,5 +56,6 @@ abstract class AppRouter {
         OwnerPublish.routeName: (_) => const OwnerPublish(),
         PaymentPage.routeName: (_) => const PaymentPage(),
         ReviewScreen.routeName:(_) => const ReviewScreen(),
+        MyCurrentDealsPage.routeName :(_) => const MyCurrentDealsPage(),
       };
 }

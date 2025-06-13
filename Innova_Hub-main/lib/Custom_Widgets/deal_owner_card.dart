@@ -133,7 +133,7 @@ class DealCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 ClipRRect(
-                  borderRadius: BorderRadius.circular(12), // ← الزوايا
+                  borderRadius: BorderRadius.circular(12),
                   child: Image.network(
                     deal.images[0],
                     width: 190,

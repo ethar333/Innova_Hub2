@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:innovahub_app/core/Api/Api_Manager_favourite.dart';
@@ -22,16 +23,15 @@ class _FavouriteTabState extends State<FavouriteTab> {
   }
 
   Future<void> fetchWishlistItems() async {
-  if (!mounted) return;  // التحقق من أن الـ State لا يزال موجودًا
-  setState(() => isLoading = true);
+    if (!mounted) return;
+    setState(() => isLoading = true);
 
-  wishlistItems = await wishlistService.fetchWishlist();
-  print("Fetched wishlist items: $wishlistItems");
+    wishlistItems = await wishlistService.fetchWishlist();
+    print("Fetched wishlist items: $wishlistItems");
 
-  if (!mounted) return;  // التحقق مرة أخرى بعد عملية الـ await
-  setState(() => isLoading = false);
-}
-
+    if (!mounted) return;
+    setState(() => isLoading = false);
+  }
 
   Future<void> addProductToWishlist(int productId) async {
     bool success = await wishlistService.addProductToWishlist(productId);
@@ -66,7 +66,10 @@ class _FavouriteTabState extends State<FavouriteTab> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           backgroundColor: Constant.mainColor,
-          content: Text("Item removed from wishlist",style: TextStyle(color: Constant.whiteColor),),
+          content: Text(
+            "Item removed from wishlist",
+            style: TextStyle(color: Constant.whiteColor),
+          ),
           duration: Duration(seconds: 2),
         ),
       );
@@ -143,14 +146,28 @@ class _FavouriteTabState extends State<FavouriteTab> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   ClipRRect(
-                                    borderRadius: BorderRadius.circular(12),
-                                    child: Image.network(
+                                      borderRadius: BorderRadius.circular(12),
+                                      child: CachedNetworkImage(
+                                        imageUrl:
+                                            item["ProductHomeImage"] ?? "",
+                                        height: 120,
+                                        width: double.infinity,
+                                        fit: BoxFit.cover,
+                                        placeholder: (context, url) =>
+                                            const Center(
+                                                child:
+                                                    CircularProgressIndicator(
+                                                        strokeWidth: 2)),
+                                        errorWidget: (context, url, error) =>
+                                            const Icon(Icons.broken_image),
+                                      )
+                                      /*Image.network(
                                       item["ProductHomeImage"] ?? "",
                                       height: 120,
                                       width: double.infinity,
                                       fit: BoxFit.cover,
-                                    ),
-                                  ),
+                                    ),*/
+                                      ),
                                   const SizedBox(height: 10),
                                   Text(
                                     item["ProductName"] ?? "Product",
@@ -161,7 +178,8 @@ class _FavouriteTabState extends State<FavouriteTab> {
                                   ),
                                   const SizedBox(height: 12),
                                   Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
                                         "\$${(item["FinalPrice"] as num).toStringAsFixed(2)}",

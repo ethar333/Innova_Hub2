@@ -1,4 +1,3 @@
-
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:innovahub_app/core/Constants/Colors_Constant.dart';
@@ -8,7 +7,7 @@ class ImagePickerBuild extends StatelessWidget {
   final File? image;
   final VoidCallback onTap;
 
-  const ImagePickerBuild ({
+  const ImagePickerBuild({
     Key? key,
     required this.label,
     required this.image,
@@ -22,19 +21,20 @@ class ImagePickerBuild extends StatelessWidget {
         GestureDetector(
           onTap: onTap,
           child: Container(
-            height: 80,
+            height: 90,
             width: 130,
             decoration: BoxDecoration(
-              color: Constant.white4Color,
-              borderRadius: BorderRadius.circular(15),
               border: Border.all(color: Colors.grey.shade400),
+              borderRadius: BorderRadius.circular(12),
+              color: const Color(0xFFF3F3F3),
             ),
             child: image != null
                 ? ClipRRect(
-                    borderRadius: BorderRadius.circular(15),
-                    child: Image.file(image!, fit: BoxFit.cover),
+                    borderRadius: BorderRadius.circular(10),
+                    child: Image.file(image!, fit: BoxFit.fill),
                   )
-                : const Icon(Icons.upload_file, size: 40),
+                : const Icon(Icons.cloud_upload_outlined,
+                    size: 32, color: Colors.grey),
           ),
         ),
         const SizedBox(height: 5),

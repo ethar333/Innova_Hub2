@@ -13,7 +13,7 @@ import 'package:innovahub_app/Custom_Widgets/stack_listHandmade.dart';
 import 'package:innovahub_app/Models/Category_response.dart';
 import 'package:innovahub_app/Models/product_response.dart';
 import 'package:innovahub_app/home/Deals/owner_product.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:innovahub_app/home/widget/Custom_Deal_button.dart';
 
 class HomeOwner extends StatefulWidget {
   const HomeOwner({super.key});
@@ -24,25 +24,12 @@ class HomeOwner extends StatefulWidget {
 
 class _HomeOwnerState extends State<HomeOwner> {
   late Future<List<Investment>> futureInvestments;
-  final ApiService _apiService = ApiService();
+  final ApiService apiService = ApiService();
 
   @override
   void initState() {
     super.initState();
-    _loadInvestments();
-  }
-
-  Future<void> _loadInvestments() async {
-    setState(() {
-      futureInvestments = _apiService.getOwnerInvestments();
-    });
-  }
-
-  Future<void> _launchURL() async {
-    final Uri url = Uri.parse('https://innov-hub-dashboard.vercel.app/');
-    if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
-      throw Exception('Could not launch $url');
-    }
+    futureInvestments = apiService.getOwnerInvestments();
   }
 
   @override
@@ -93,26 +80,39 @@ class _HomeOwnerState extends State<HomeOwner> {
                                   fontWeight: FontWeight.w400,
                                 ),
                               ),
-                              const SizedBox(width: 130,),
-                              const CircleAvatar(
-                                radius: 9,
-                                backgroundColor: Constant.blue3Color,
-                                child: Icon(
-                                  Icons.check,
-                                  color: Constant.whiteColor,
-                                  size: 16,
-                                ),
+                              const SizedBox(
+                                width: 110,
                               ),
-                             const SizedBox(
-                                width: 3,
-                              ),
-                              const Text(
-                                'Verified',
-                                style: TextStyle(
-                                  color: Constant.greyColor3,
-                                  fontSize: 16,
-                                ),
-                              ),
+                              user.isVerified
+                                  ? const Row(
+                                      children: [
+                                        CircleAvatar(
+                                          radius: 9,
+                                          backgroundColor: Constant.blue3Color,
+                                          child: Icon(
+                                            Icons.check,
+                                            color: Constant.whiteColor,
+                                            size: 16,
+                                          ),
+                                        ),
+                                        SizedBox(width: 3),
+                                        Text(
+                                          'Verified',
+                                          style: TextStyle(
+                                            color: Constant.greyColor3,
+                                            fontSize: 16,
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                  : const Text(
+                                      'Not Verified',
+                                      style: TextStyle(
+                                        color: Colors.redAccent,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
                             ],
                           ),
                           /*Text(
@@ -284,7 +284,7 @@ class _HomeOwnerState extends State<HomeOwner> {
                     .map((investment) => Padding(
                           padding: const EdgeInsets.symmetric(
                             horizontal: 15,
-                            vertical: 8,
+                            //vertical: 4,
                           ),
                           child: InvestmentContainer(investment: investment),
                         ))
@@ -292,25 +292,57 @@ class _HomeOwnerState extends State<HomeOwner> {
               );
             },
           ),
-
-          // const ContainerOwner(),
-          /*Center(
-           child: ElevatedButton(
-              onPressed: () {
-                _launchURL();
-              },
-              child: Text('Open Innova Hub Dashboard'),
-              style: ElevatedButton.styleFrom(
-                padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                textStyle: TextStyle(fontSize: 18),
-              ),
-            ),
-         )*/
-
           const SizedBox(
             height: 15,
           ),
-          Container(
+          const Center(
+            child: Text(
+              'You Can start ur investment Easily',
+              style: TextStyle(
+                  fontSize: 16,
+                  color: Constant.black3Color,
+                  fontWeight: FontWeight.w500),
+            ),
+          ),
+          const SizedBox(
+            height: 15,
+          ),
+          Center(
+            child: OutlinedButton(
+              style: OutlinedButton.styleFrom(
+                shape: const StadiumBorder(),
+                side: const BorderSide(color: Color(0xFFE0E0E0)),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                backgroundColor: Colors.white,
+              ),
+              onPressed: () {},
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  // Custom bar chart icon
+                  SizedBox(
+                    width: 24,
+                    height: 24,
+                    child: CustomPaint(
+                      painter: BarChartPainter(),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  const Text(
+                    'Go Deals Now',
+                    style: TextStyle(
+                      color: Constant.blue3Color,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+
+          /*  Container(
             decoration: const BoxDecoration(
               color: Constant.mainColor,
               borderRadius: BorderRadius.only(
@@ -342,7 +374,7 @@ class _HomeOwnerState extends State<HomeOwner> {
                     ),
                   ]),
             ),
-          ),
+          ),*/
 
           const SizedBox(
             height: 25,
@@ -691,9 +723,6 @@ class _HomeOwnerState extends State<HomeOwner> {
               );
             },
           ),
-          /*const SizedBox(
-            height: 40,
-          ),*/
         ],
       ),
     );

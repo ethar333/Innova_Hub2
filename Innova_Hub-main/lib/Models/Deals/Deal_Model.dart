@@ -1,5 +1,6 @@
 
  // Deal Model:
+
 class DealModel{
 
   String businessName;

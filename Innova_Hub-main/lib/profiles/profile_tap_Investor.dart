@@ -94,7 +94,7 @@ class _ProfileDesignState extends State<ProfileInvestor> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            const SizedBox(height: 25),
+            //const SizedBox(height: 25),
             Container(
               width: double.infinity,
               height: 200,
@@ -105,56 +105,59 @@ class _ProfileDesignState extends State<ProfileInvestor> {
                 ),
               ),
               child: Center(
-                child: Stack(
-                  children: [
-                    CircleAvatar(
-                      radius: 55, // حجم الدائرة
-                      backgroundImage:
-                          _imageUrl != null ? NetworkImage(_imageUrl!) : null,
-                      backgroundColor: Colors.grey.shade300,
-                      child: (_imageUrl == null)
-                          ? const Icon(Icons.person,
-                              size: 65, color: Constant.greyColor4)
-                          : null,
-                    ),
-
-                    Positioned(
-                      bottom: 0,
-                      right: 0,
-                      child: GestureDetector(
-                        onTap: _pickAndUploadImage,
-                        child: CircleAvatar(
-                          radius: 14,
-                          backgroundColor: Constant.mainColor,
-                          child: _isUploading
-                              ? const CircularProgressIndicator(
-                                  color: Colors.white)
-                              : const Icon(
-                                  Icons.camera_alt,
-                                  color: Constant.whiteColor,
-                                  size: 16,
-                                ),
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 30),
+                  child: Stack(
+                    children: [
+                      CircleAvatar(
+                        radius: 55,
+                        backgroundImage:
+                            _imageUrl != null ? NetworkImage(_imageUrl!) : null,
+                        backgroundColor: Colors.grey.shade300,
+                        child: (_imageUrl == null)
+                            ? const Icon(Icons.person,
+                                size: 65, color: Constant.greyColor4)
+                            : null,
+                      ),
+                  
+                      Positioned(
+                        bottom: 0,
+                        right: 0,
+                        child: GestureDetector(
+                          onTap: _pickAndUploadImage,
+                          child: CircleAvatar(
+                            radius: 14,
+                            backgroundColor: Constant.mainColor,
+                            child: _isUploading
+                                ? const CircularProgressIndicator(
+                                    color: Colors.white)
+                                : const Icon(
+                                    Icons.camera_alt,
+                                    color: Constant.whiteColor,
+                                    size: 16,
+                                  ),
+                          ),
                         ),
                       ),
-                    ),
-
-                    // delete Image Icon:
-                    Positioned(
-                      top: 5,
-                      right: 5,
-                      child: GestureDetector(
-                        onTap: () async {
-                          await _deleteProfileImage(); // استدعاء الدالة مع تحديث الواجهة
-                        },
-                        child: const CircleAvatar(
-                          radius: 13,
-                          backgroundColor: Constant.mainColor,
-                          child: Icon(FontAwesomeIcons.trash,
-                              color: Colors.white, size: 13),
+                  
+                      // delete Image Icon:
+                      Positioned(
+                        top: 5,
+                        right: 5,
+                        child: GestureDetector(
+                          onTap: () async {
+                            await _deleteProfileImage(); // استدعاء الدالة مع تحديث الواجهة
+                          },
+                          child: const CircleAvatar(
+                            radius: 13,
+                            backgroundColor: Constant.mainColor,
+                            child: Icon(FontAwesomeIcons.trash,
+                                color: Colors.white, size: 13),
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
