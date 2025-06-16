@@ -1,14 +1,18 @@
 import 'dart:developer';
 import 'dart:io';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:innovahub_app/core/Api/Api_Manager_profiles.dart';
 import 'package:innovahub_app/Custom_Widgets/Text_Field_profile.dart';
 import 'package:innovahub_app/Models/profiles/User_profile_model.dart';
+import 'package:innovahub_app/core/Api/Api_Prediction_owner.dart';
 import 'package:innovahub_app/core/Constants/Colors_Constant.dart';
 import 'package:innovahub_app/profiles/Current_Deals_Owner.dart';
+import 'package:innovahub_app/profiles/Widgets/Chart_Widget.dart';
 import 'package:innovahub_app/profiles/Widgets/Custom_Text_Field.dart';
+import 'package:innovahub_app/profiles/Widgets/current_products_owner.dart';
 import 'package:innovahub_app/profiles/Widgets/log_out_Textfield.dart';
 import 'package:innovahub_app/profiles/Widgets/textField_user.dart';
 import 'package:innovahub_app/profiles/privacy_owner_investor.dart';
@@ -29,6 +33,14 @@ class _ProfileDesignState extends State<ProfileOwner> {
   String? _imageUrl;
   bool _isUploading = false;
   bool _isEditing = false;
+  final TextEditingController adBudgetController = TextEditingController();
+  final TextEditingController unitPriceController = TextEditingController();
+  final TextEditingController unitsSoldController = TextEditingController();
+
+  String? selectedProductType;
+  String? selectedSeason;
+  String? selectedMarketingChannel;
+  double? predictedRevenue;
 
   @override
   void initState() {
@@ -114,7 +126,7 @@ class _ProfileDesignState extends State<ProfileOwner> {
                                 size: 65, color: Constant.greyColor4)
                             : null,
                       ),
-                  
+
                       Positioned(
                         bottom: 0,
                         right: 0,
@@ -134,7 +146,7 @@ class _ProfileDesignState extends State<ProfileOwner> {
                           ),
                         ),
                       ),
-                  
+
                       // delete Image Icon:
                       Positioned(
                         top: 5,
@@ -260,7 +272,7 @@ class _ProfileDesignState extends State<ProfileOwner> {
             ),
 
             const SizedBox(height: 13),
-           FutureBuilder<UserProfile>(
+            FutureBuilder<UserProfile>(
               future: ApiManagerProfiles.fetchUserProfile(),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
@@ -270,7 +282,7 @@ class _ProfileDesignState extends State<ProfileOwner> {
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        "ID: ${user.roleId} ",
+                        "ID: ${user.id} ",
                         style: const TextStyle(
                           color: Constant.greyColor,
                           fontWeight: FontWeight.w300,
@@ -290,7 +302,8 @@ class _ProfileDesignState extends State<ProfileOwner> {
                 }
               },
             ),
-            const Divider(indent: 30, endIndent: 35, color: Constant.greyColor2),
+            const Divider(
+                indent: 30, endIndent: 35, color: Constant.greyColor2),
             // display user info:
             FutureBuilder<UserProfile>(
               future: ApiManagerProfiles.fetchUserProfile(),
@@ -432,17 +445,60 @@ class _ProfileDesignState extends State<ProfileOwner> {
                       ),
                     ),
                     const SizedBox(height: 16),
-                    const CustomTextFieldPredict(hint: 'Product Ad-Budget'),
+                    CustomTextFieldPredict(
+                      hint: 'Product Ad-Budget',
+                      controller: adBudgetController,
+                    ),
                     const SizedBox(height: 12),
-                    const CustomTextFieldPredict(hint: 'Product Unit Price'),
+                    CustomTextFieldPredict(
+                      hint: 'Product Unit Price',
+                      controller: unitPriceController,
+                    ),
                     const SizedBox(height: 12),
-                    const CustomTextFieldPredict(hint: 'Product Unit Sold'),
+                    CustomTextFieldPredict(
+                      hint: 'Product Unit Sold',
+                      controller: unitsSoldController,
+                    ),
                     const SizedBox(height: 12),
-                    const CustomTextFieldPredict(hint: 'Product Type Code'),
+                    //const CustomTextFieldPredict(hint: 'Product Type'),
+                    CustomDropdownPredict(
+                      hint: 'Product Type',
+                      items: const [
+                        'HomeAndGarden',
+                        'HealthAndBeauty',
+                        'ToysAndGames',
+                        'SportsAndFitness',
+                        'BooksAndEducation',
+                        'Electronics',
+                        'Fashion',
+                      ],
+                      onChanged: (value) {
+                        selectedProductType = value;
+                      },
+                    ),
                     const SizedBox(height: 12),
-                    const CustomTextFieldPredict(hint: 'Product Season Code'),
+                    CustomDropdownPredict(
+                      hint: 'Product Season',
+                      items: const ['Winter', 'Spring', 'Summer', 'Autumn'],
+                      onChanged: (value) {
+                        selectedSeason = value;
+                      },
+                    ),
                     const SizedBox(height: 12),
-                    const CustomDropdown(),
+                    CustomDropdownPredict(
+                      hint: 'Product marketing channel',
+                      items: const [
+                        'Affiliate',
+                        "Direct",
+                        "Email",
+                        "Search Engine",
+                        "Social Media",
+                      ],
+                      onChanged: (value) {
+                        selectedMarketingChannel = value;
+                      },
+                    ),
+                    //const CustomDropdown(),
                     const SizedBox(height: 20),
                     SizedBox(
                       width: double.infinity,
@@ -454,7 +510,38 @@ class _ProfileDesignState extends State<ProfileOwner> {
                             borderRadius: BorderRadius.circular(15),
                           ),
                         ),
-                        onPressed: () {},
+                        onPressed: () async {
+                          final adBudget =
+                              double.tryParse(adBudgetController.text) ?? 0;
+                          final unitPrice =
+                              double.tryParse(unitPriceController.text) ?? 0;
+                          final unitsSold =
+                              int.tryParse(unitsSoldController.text) ?? 0;
+
+                          final revenue = await PredictionService.predictSales(
+                            adBudget: adBudget,
+                            unitPrice: unitPrice,
+                            unitsSold: unitsSold,
+                            productType: selectedProductType ?? '',
+                            season: selectedSeason ?? '',
+                            marketingChannel: selectedMarketingChannel ?? '',
+                          );
+
+                          if (revenue != null) {
+                            setState(() {
+                              predictedRevenue = revenue;
+                            });
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text(
+                                    'Prediction failed, please try again later.'),
+                                backgroundColor: Colors.red,
+                                duration: Duration(seconds: 3),
+                              ),
+                            );
+                          }
+                        },
                         child: const Text(
                           'Apply',
                           style: TextStyle(
@@ -469,6 +556,8 @@ class _ProfileDesignState extends State<ProfileOwner> {
               ),
             ),
             const SizedBox(height: 15),
+             if (predictedRevenue != null)
+              AnimatedRevenueWidget(revenue: predictedRevenue!),
 
             const Divider(
               indent: 20,
@@ -490,6 +579,14 @@ class _ProfileDesignState extends State<ProfileOwner> {
               route: MyCurrentDealsPage.routeName,
             ),
             const SizedBox(
+              height: 15,
+            ),
+             const ContainerUser(
+              icon: Icons.inventory_2_outlined,
+              title: "My Current Products",
+              route: UserProductsScreen.routname,
+            ),
+             const SizedBox(
               height: 15,
             ),
             const ContainerUser(

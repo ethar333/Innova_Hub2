@@ -1,72 +1,61 @@
 
-
 import 'dart:convert';
-
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
 class InvestorInvestment {
-  final int investmentId;
-  final int dealId;
+  final String dealId;
   final String projectName;
   final String? investorName;
   final String ownerName;
-  final double investmentAmount;
-  final double equityPercentage;
+  final double offerMoney;
+  final double offerDeal;
   final String status;
   final String createdAt;
   final double totalProfit;
   final String? lastDistribution;
-  final String durationType;
   final int durationInMonths;
   final String startDate;
   final String endDate;
   final int? remainingDays;
-  final bool isAutoRenew;
 
   InvestorInvestment({
-    required this.investmentId,
     required this.dealId,
     required this.projectName,
-    required this.investorName,
+    this.investorName,
     required this.ownerName,
-    required this.investmentAmount,
-    required this.equityPercentage,
+    required this.offerMoney,
+    required this.offerDeal,
     required this.status,
     required this.createdAt,
     required this.totalProfit,
-    required this.lastDistribution,
-    required this.durationType,
+    this.lastDistribution,
     required this.durationInMonths,
     required this.startDate,
     required this.endDate,
-    required this.remainingDays,
-    required this.isAutoRenew,
+    this.remainingDays,
   });
 
   factory InvestorInvestment.fromJson(Map<String, dynamic> json) {
-    return InvestorInvestment(
-      investmentId: json['InvestmentId'],
-      dealId: json['DealId'],
-      projectName: json['ProjectName'],
-      investorName: json['InvestorName'],
-      ownerName: json['OwnerName'],
-      investmentAmount: (json['InvestmentAmount'] as num).toDouble(),
-      equityPercentage: (json['EquityPercentage'] as num).toDouble(),
-      status: json['Status'],
-      createdAt: json['CreatedAt'],
-      totalProfit: (json['TotalProfit'] as num).toDouble(),
-      lastDistribution: json['LastDistribution'],
-      durationType: json['DurationType'],
-      durationInMonths: json['DurationInMonths'],
-      startDate: json['StartDate'],
-      endDate: json['EndDate'],
-      remainingDays: json['RemainingDays'],
-      isAutoRenew: json['IsAutoRenew'],
-    );
-  }
+  return InvestorInvestment(
+    dealId: json['DealId'].toString(),
+    projectName: json['ProjectName'],
+    investorName: json['InvestorName'],
+    ownerName: json['OwnerName'],
+    offerDeal: (json['OfferDeal'] ?? 0).toDouble(),
+    offerMoney: (json['OfferMoney'] ?? 0).toDouble(),
+    status: json['Status'] ?? '',
+    createdAt: json['CreatedAt'],
+    totalProfit: (json['TotalProfit'] ?? 0).toDouble(),
+    lastDistribution: json['LastDistribution'],
+    durationInMonths: json['DurationInMonths'] ?? 0,
+    startDate: json['StartDate'],
+    endDate: json['EndDate'],
+    remainingDays: json['RemainingDays'],
+  );
 }
 
+}
 
 Future<List<InvestorInvestment>> fetchInvestorInvestments() async {
   final prefs = await SharedPreferences.getInstance();
@@ -90,6 +79,43 @@ Future<List<InvestorInvestment>> fetchInvestorInvestments() async {
     throw Exception('Failed to load investments');
   }
 }
+ 
+
+ class ApiService {
+  static const String baseUrl = 'https://innova-hub.premiumasp.net/api';
+
+  Future<List<InvestorInvestment>> getInvestorInvestments() async {
+  try {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String? token = prefs.getString('token');
+
+    if (token == null) {
+      throw Exception('No authentication token found');
+    }
+
+    final response = await http.get(
+      Uri.parse('$baseUrl/Deals/investor-deals'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      print('🟢 Investments response: ${response.body}');  
+
+      final List<dynamic> jsonData = jsonDecode(response.body);
+      return jsonData.map((json) => InvestorInvestment.fromJson(json)).toList();
+    } else {
+      throw Exception('Failed to load investments: ${response.statusCode}');
+    }
+  } catch (e) {
+    throw Exception('Error fetching investments: $e');
+  }
+}
+ }
+
+
 
 
 

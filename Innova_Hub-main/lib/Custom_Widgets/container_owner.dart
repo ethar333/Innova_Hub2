@@ -1,12 +1,11 @@
 
 import 'package:flutter/material.dart';
-import 'package:innovahub_app/core/Api/Api_Owner_home.dart';
+import 'package:innovahub_app/core/Api/Api_Owner_home_Investment.dart';
 import 'package:innovahub_app/core/Constants/Colors_Constant.dart';
 
 class InvestmentContainer extends StatelessWidget {
-    final Investment investment;
+    final OwnerInvestment investment;
     const InvestmentContainer({super.key, required this.investment});
-
 
   @override
   Widget build(BuildContext context) {

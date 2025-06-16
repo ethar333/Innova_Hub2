@@ -3,7 +3,7 @@ import 'package:innovahub_app/Models/profiles/User_profile_model.dart';
 import 'package:innovahub_app/Products/product_page.dart';
 import 'package:innovahub_app/core/Api/Api_Manager_categories.dart';
 import 'package:innovahub_app/core/Api/Api_Manager_profiles.dart';
-import 'package:innovahub_app/core/Api/Api_Owner_home.dart';
+import 'package:innovahub_app/core/Api/Api_Owner_home_Investment.dart';
 import 'package:innovahub_app/core/Constants/Colors_Constant.dart';
 import 'package:innovahub_app/Custom_Widgets/Estimated_container.dart';
 import 'package:innovahub_app/Custom_Widgets/Stack_listCart.dart';
@@ -14,6 +14,7 @@ import 'package:innovahub_app/Models/Category_response.dart';
 import 'package:innovahub_app/Models/product_response.dart';
 import 'package:innovahub_app/home/Deals/owner_product.dart';
 import 'package:innovahub_app/home/widget/Custom_Deal_button.dart';
+import 'package:innovahub_app/home/widget/recommended_product_list.dart';
 
 class HomeOwner extends StatefulWidget {
   const HomeOwner({super.key});
@@ -23,7 +24,7 @@ class HomeOwner extends StatefulWidget {
 }
 
 class _HomeOwnerState extends State<HomeOwner> {
-  late Future<List<Investment>> futureInvestments;
+  late Future<List<OwnerInvestment>> futureInvestments;
   final ApiService apiService = ApiService();
 
   @override
@@ -81,7 +82,7 @@ class _HomeOwnerState extends State<HomeOwner> {
                                 ),
                               ),
                               const SizedBox(
-                                width: 110,
+                                width: 90,
                               ),
                               user.isVerified
                                   ? const Row(
@@ -128,7 +129,7 @@ class _HomeOwnerState extends State<HomeOwner> {
                               maxWidth: MediaQuery.of(context).size.width * 0.7,
                             ),
                             child: Text(
-                              "ID: ${user.roleId}",
+                              "ID: ${user.id}",
                               softWrap: true,
                               style: const TextStyle(
                                 color: Constant.greyColor,
@@ -214,7 +215,7 @@ class _HomeOwnerState extends State<HomeOwner> {
           ),
 
           // const SizedBox(height: 10,),
-          FutureBuilder<List<Investment>>(
+          FutureBuilder<List<OwnerInvestment>>(
             future: futureInvestments,
             builder: (context, snapshot) {
               // Loading State
@@ -424,10 +425,54 @@ class _HomeOwnerState extends State<HomeOwner> {
               );
             },
           ),
-
-          const SizedBox(
+            const SizedBox(
             height: 20,
           ),
+
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              const SizedBox(
+                width: 10,
+              ),
+              const Text(
+                "Recommendation Products",
+                style: TextStyle(
+                    color: Constant.blackColorDark,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 18),
+              ),
+              //const SizedBox( width: 110,),
+              const Spacer(),
+              InkWell(
+                onTap: () {
+                  /* Navigator.pushNamed(context, HomeScreenCategories.routeName,
+                   // arguments:category,
+                    );*/
+                },
+                child: const Row(
+                  children: [
+                    Text(
+                      "Show All",
+                      style: TextStyle(
+                          color: Constant.blueColor,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 15),
+                    ),
+                    Icon(
+                      Icons.chevron_right,
+                      color: Constant.blackColorDark,
+                    )
+                  ],
+                ),
+              ),
+              const SizedBox( width: 6, )
+            ],
+          ),
+          const SizedBox(height: 20),
+          // display Bags product:
+          RecommendedProductsList(),
+          const SizedBox(height: 20,),
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [

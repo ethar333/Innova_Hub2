@@ -1,9 +1,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:innovahub_app/Models/Deals/Business_owner_response.dart';
+import 'package:innovahub_app/core/Api/Api_Accept_Offer.dart';
+import 'package:innovahub_app/core/Api/Api_Accept_discuss.dart';
+import 'package:innovahub_app/core/Api/Api_Discuss_deal.dart';
 import 'package:innovahub_app/core/Constants/Colors_Constant.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class DealCardInvestor extends StatelessWidget {
@@ -44,6 +48,21 @@ class DealCardInvestor extends StatelessWidget {
     Future.delayed(const Duration(seconds: 2), () {
       _launchURL();
     });
+  }
+   void _showAlert(BuildContext context, String message) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text("Offer Status"),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text("OK"),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -201,7 +220,62 @@ class DealCardInvestor extends StatelessWidget {
                 )
               ],
             ),
-          Row(
+           Row(
+            children: [
+              InkWell(
+                onTap: () async {
+                  final result = await AcceptService.acceptOffer(dealId: deal.dealId);
+                  // Debug log (optional)
+                  print("Accept result: $result");
+
+                  // Show backend message
+                  _showAlert(context, result['message']);
+                },
+                child: Container(
+                  margin: const EdgeInsets.only(left: 6, top: 15),
+                  padding: const EdgeInsets.all(12),
+                  width: 190,
+                  decoration: BoxDecoration(
+                    color: Colors.green,
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: const Center(
+                    child: Text(
+                      "Accept Offer",
+                      style: TextStyle(fontSize: 18, color: Colors.white),
+                    ),
+                  ),
+                ),
+              ),
+              InkWell(
+                onTap: () async {
+                  final prefs = await SharedPreferences.getInstance();
+                  await prefs.setInt("DealId", deal.dealId);
+
+                  Navigator.pushNamed(context, Disscussoffer.routname);
+                },
+                child: Container(
+                  margin: const EdgeInsets.only(left: 10, top: 15),
+                  padding: const EdgeInsets.all(12),
+                  width: 150,
+                  decoration: BoxDecoration(
+                    color: Constant.yellowColor,
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: ClipRRect(
+                      borderRadius: BorderRadius.circular(15),
+                      child: const Center(
+                          child: Text(
+                        "Discuss Offer",
+                        style:
+                            TextStyle(fontSize: 18, color: Constant.whiteColor),
+                      ))),
+                ),
+              ),
+            ],
+          ),
+          
+         /* Row(
             children: [
               InkWell(
                 onTap: () {
@@ -249,7 +323,7 @@ class DealCardInvestor extends StatelessWidget {
                 ),
               ),
             ],
-          ),
+          ),*/
         ],
       ),
     );

@@ -17,9 +17,7 @@ class ContainerCategoryItem extends StatelessWidget {
       width: double.infinity,
       color: Constant.transparentColor,
       child: FutureBuilder<List<CategoryItemResponse>>(
-        future:
-            ApiManagerCategories.getAllCategoryItems(),    // load data from Api:
-
+        future:ApiManagerCategories.getAllCategoryItems(),    // load data from Api:
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             // loading data:

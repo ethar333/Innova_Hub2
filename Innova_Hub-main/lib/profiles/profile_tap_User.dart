@@ -191,7 +191,7 @@ class _ProfileDesignState extends State<ProfileUser> {
                             ),
                           ),
                           Text(
-                            "User ID: ${user.roleId}",
+                            "User ID: ${user.id}",
                             style: const TextStyle(
                               color: Constant.whiteColor,
                               fontWeight: FontWeight.w200,

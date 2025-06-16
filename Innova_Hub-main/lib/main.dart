@@ -8,12 +8,59 @@ import 'package:innovahub_app/core/services/cache_services.dart';
 import 'package:innovahub_app/home/controller/owner_home_layout/owner_home_layout_cubit.dart';
 import 'package:innovahub_app/home/controller/user_home_layout_cubit/user_home_layout_cubit.dart';
 import 'config/app_router.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await CacheService.init();
+  await DioHelper.init();
+
+  runApp(
+    MultiBlocProvider(
+      providers: [
+        BlocProvider<AuthCubit>(
+          create: (_) => AuthCubit(),
+        ),
+        BlocProvider<UserHomeLayoutCubit>(
+          create: (_) => UserHomeLayoutCubit(),
+        ),
+        BlocProvider<OwnerHomeLayoutCubit>(
+          create: (_) => OwnerHomeLayoutCubit(),
+        ),
+      ],
+      child: const MyApp(),
+    ),
+  );
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ScreenUtilInit(
+      designSize: const Size(375, 893),
+      minTextAdapt: true,
+      splitScreenMode: true,
+      builder: (_, child) {
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          routes: AppRouter.routes(),
+          navigatorKey: AppRouter.navigatorKey,
+          initialRoute: AppRouter.initRoute,
+        );
+      },
+    );
+  }
+}
 
 
-final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+
+
+
+
+
+
+/*final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 
 final AndroidNotificationChannel channel = AndroidNotificationChannel(
@@ -140,8 +187,7 @@ class _MyAppState extends State<MyApp> {
       },
     );
   }
-}
-
+}*/
 
 
 

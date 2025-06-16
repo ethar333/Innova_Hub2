@@ -1,6 +1,7 @@
 
 
 class UserProfile {
+  final String id;
   final String firstName;
   final String lastName;
   final String email;
@@ -8,7 +9,6 @@ class UserProfile {
   final String phoneNumber;
   final String district;
   final String roleName;
-  final String roleId;
   final String? profileImageUrl;
   final String? profileCoverUrl;
   final num? totalBalance;
@@ -23,7 +23,7 @@ class UserProfile {
     required this.phoneNumber,
     required this.district,
     required this.roleName,
-    required this.roleId,
+    required this.id,
     this.profileImageUrl,
     this.profileCoverUrl,
     this.totalBalance,
@@ -40,7 +40,7 @@ class UserProfile {
       district: json['District'] ?? '',
       roleName: json['RoleName'] ?? '',
       profileImageUrl: json['ProfileImageUrl']??"",
-      roleId: json['RoleId'] ?? '',
+      id: json['Id'] ?? '',
       profileCoverUrl: json['ProfileCoverUrl'] ?? '',
       totalBalance: json['TotalBalance'],
       isVerified: json['IsVerified'] ?? false,
@@ -48,6 +48,6 @@ class UserProfile {
   }
   @override
   String toString() {
-  return "firstName: $firstName, lastName: $lastName, email: $email, city: $city, phoneNumber: $phoneNumber, district: $district, roleName: $roleName, profileImageUrl: $profileImageUrl, roleId: $roleId, profileCoverUrl: $profileCoverUrl, totalBalance: $totalBalance,isVerified: $isVerified";
+  return "firstName: $firstName, lastName: $lastName, email: $email, city: $city, phoneNumber: $phoneNumber, district: $district, roleName: $roleName, profileImageUrl: $profileImageUrl, id: $id, profileCoverUrl: $profileCoverUrl, totalBalance: $totalBalance,isVerified: $isVerified";
   }
 }

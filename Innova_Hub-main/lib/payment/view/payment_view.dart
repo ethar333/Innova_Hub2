@@ -1,4 +1,3 @@
-
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:innovahub_app/core/Constants/Colors_Constant.dart';
@@ -32,6 +31,7 @@ class _PaymetExcuteWebViewState extends State<PaymetExcuteWebView> {
           onPageStarted: (String url) {
             log(url);
           },
+         
           onPageFinished: (String url) {
             if (url.contains("payment-success")) {
               setState(() {
@@ -83,10 +83,6 @@ class _PaymetExcuteWebViewState extends State<PaymetExcuteWebView> {
     );
   }
 }
-
-
-
-
 
 /*class PaymetExcuteWebView extends StatefulWidget {
   final String url;

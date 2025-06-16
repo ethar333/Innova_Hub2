@@ -143,7 +143,6 @@ class _ProductPageState extends State<ProductPage> {
   @override
   Widget build(BuildContext context) {
     final currentRating = newProductCommentsResponse.averageRating.toInt();
-
     return Scaffold(
       backgroundColor: Constant.white3Color,
       appBar: AppBar(

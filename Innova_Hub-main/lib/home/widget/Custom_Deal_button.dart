@@ -1,6 +1,4 @@
 
-
-
 import 'package:flutter/material.dart';
 
 class BarChartPainter extends CustomPainter {

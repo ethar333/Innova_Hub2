@@ -168,8 +168,7 @@ class _ProfileDesignState extends State<ProfileInvestor> {
               future: ApiManagerProfiles.fetchUserProfile(),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
-                  UserProfile user = snapshot.data!; // receive data:
-
+                  UserProfile user = snapshot.data!;    // receive data:
                   return Container(
                     width: double.infinity,
                     height: 70,
@@ -195,14 +194,14 @@ class _ProfileDesignState extends State<ProfileInvestor> {
                                   fontSize: 16,
                                 ),
                               ),
-                              const Text(
+                              /*const Text(
                                 "ID:123465678",
                                 style: TextStyle(
                                   color: Constant.whiteColor,
                                   fontWeight: FontWeight.w200,
                                   fontSize: 16,
                                 ),
-                              ),
+                              ),*/
                             ],
                           ),
                             Column(
@@ -271,7 +270,38 @@ class _ProfileDesignState extends State<ProfileInvestor> {
               },
             ),
 
-            const SizedBox(height: 10),
+            const SizedBox(height: 13),
+             FutureBuilder<UserProfile>(
+              future: ApiManagerProfiles.fetchUserProfile(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  UserProfile user = snapshot.data!;
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 30),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        "ID: ${user.id} ",
+                        style: const TextStyle(
+                          color: Constant.greyColor,
+                          fontWeight: FontWeight.w300,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                  );
+                } else if (snapshot.hasError) {
+                  return Center(child: Text("Error: ${snapshot.error}"));
+                } else {
+                  return const Center(
+                    child: CircularProgressIndicator(
+                      color: Constant.mainColor,
+                    ),
+                  );
+                }
+              },
+            ),
+            const Divider(indent: 30, endIndent: 35, color: Constant.greyColor2),
 
             // display user info:
             FutureBuilder<UserProfile>(

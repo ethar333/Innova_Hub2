@@ -72,14 +72,14 @@ class ProductResponse{
   factory ProductResponse.fromJson(Map<String, dynamic> json){
 
     return ProductResponse(
-      name: json['ProductName'],
-      description: json['ProductDescription'],
-      authorName: json['AuthorName'],
-      productImage: json['HomePicture'],
+      name: json['ProductName'] ,
+      description: json['ProductDescription'] ,
+      authorName: json['AuthorName'] ,
+      productImage: json['HomePicture'] ,
       productImages: List<String>.from(json['ProductPictures']),
-      price: json['ProductPrice'].toDouble(),
-      isAvailable: json['IsAvailable'],
-      stock: json['Stock'],
+      price: json['ProductPrice'] .toDouble(),
+      isAvailable: json['IsAvailable'] ,
+      stock: json['Stock'] ,
       productId: json['ProductId'],
     );
   }

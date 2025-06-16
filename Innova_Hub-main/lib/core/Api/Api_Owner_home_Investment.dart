@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:innovahub_app/Models/profiles/User_profile_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class Investment {
+class OwnerInvestment {
   final String dealId;
   final String projectName;
   final String? investorName;
@@ -20,7 +20,7 @@ class Investment {
   final String endDate;
   final int? remainingDays;
 
-  Investment({
+  OwnerInvestment({
     required this.dealId,
     required this.projectName,
     this.investorName,
@@ -37,8 +37,8 @@ class Investment {
     this.remainingDays,
   });
 
-  factory Investment.fromJson(Map<String, dynamic> json) {
-  return Investment(
+  factory OwnerInvestment.fromJson(Map<String, dynamic> json) {
+  return OwnerInvestment(
     dealId: json['DealId'].toString(),
     projectName: json['ProjectName'],
     investorName: json['InvestorName'],
@@ -61,7 +61,7 @@ class Investment {
 class ApiService {
   static const String baseUrl = 'https://innova-hub.premiumasp.net/api';
 
-  Future<List<Investment>> getOwnerInvestments() async {
+  Future<List<OwnerInvestment>> getOwnerInvestments() async {
   try {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final String? token = prefs.getString('token');
@@ -82,7 +82,7 @@ class ApiService {
       print('🟢 Investments response: ${response.body}');  
 
       final List<dynamic> jsonData = jsonDecode(response.body);
-      return jsonData.map((json) => Investment.fromJson(json)).toList();
+      return jsonData.map((json) => OwnerInvestment.fromJson(json)).toList();
     } else {
       throw Exception('Failed to load investments: ${response.statusCode}');
     }

@@ -55,7 +55,8 @@ class _HomeScreenInvestorState extends State<HomeScreenCategories> {
           ),
         ],
       ),
-      bottomNavigationBar: Theme(
+      
+      /* bottomNavigationBar: Theme(
         data: Theme.of(context).copyWith(canvasColor: Colors.white),
         child: BottomNavigationBar(
           items: const [
@@ -101,7 +102,7 @@ class _HomeScreenInvestorState extends State<HomeScreenCategories> {
             fontSize: 16,
           ),
         ),
-      ),
+      ),*/
       
       body: FutureBuilder<CategoryModel>(
         future: ApiManagerCategories.getProducts(arguments.categoryId),

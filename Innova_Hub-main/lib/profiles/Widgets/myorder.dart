@@ -129,6 +129,7 @@ class ReviewScreen extends StatefulWidget {
   const ReviewScreen({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _ReviewScreenState createState() => _ReviewScreenState();
 }
 
